@@ -1,0 +1,44 @@
+.login {
+      
+    margin: 0 auto;
+      width: 300px;
+      height: 450px;
+    padding: 20px;
+    background-color: skyblue;
+    border-radius: 12px;
+
+}
+h1{
+font-family: 'Roboto', sans-serif;
+text-align: center;
+}
+.password, .username{
+            background-color: white;
+            color: white;
+            padding: 3px 24px;
+            border-radius: 8px;
+            font-size: 16px;
+            font-weight: bold;
+            cursor: auto;
+
+
+}
+.button{
+            background-color: dodgerblue;
+            color: white;
+            border: none;
+            padding: 10px 24px;
+            border-radius: 8px;
+            font-weight: bold;
+            cursor: pointer;
+}
+#registracija{
+      background-color: deepskyblue;
+      text-decoration: none;
+      color: white;
+      font-weight: bold;
+      padding: 10px 24px;
+      border-radius: 8px;
+      cursor: pointer;
+      margin-top:100px;
+}
