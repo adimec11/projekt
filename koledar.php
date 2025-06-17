@@ -57,11 +57,11 @@ $imeMeseca = date('F', $prviDanMeseca);
     <meta charset="UTF-8">
     <title>Koledar – <?= htmlspecialchars($imeMeseca) ?> <?= $leto ?></title>
     <link rel="stylesheet" href="css/stil.css">
-    <link rel="icon" href="../img/logo.ico">
+    <link rel="icon" href="img/logo.ico">
 </head>
 <body>
 
-<img src="../img/logo.jpg" class="logo">
+<img src="img/logo.jpg" class="logo">
 
 <table border="0">
     <td>
@@ -69,9 +69,9 @@ $imeMeseca = date('F', $prviDanMeseca);
             <span class="sidebar-gumb">☰</span>
             <div class="sidebar-vsebina">
                 <a href="main.php">Domov</a>
-                <a href="../skupine.php">Skupine</a>
-                <a href="../taski.php">Naloge</a>
-                <a href="../logout.php">Odjava</a> 
+                <a href="skupine.php">Skupine</a>
+                <a href="taski.php">Naloge</a>
+                <a href="logout.php">Odjava</a>
             </div>
         </div>
     </td>
@@ -112,19 +112,7 @@ $imeMeseca = date('F', $prviDanMeseca);
     ?>
 </table>
 
-<!-- 📅 Gumb za vse mesece -->
-<div class="mesec-nav">
-    <?php
-    $slovenski_meseci = [
-        1 => 'Jan', 2 => 'Feb', 3 => 'Mar', 4 => 'Apr',
-        5 => 'Maj', 6 => 'Jun', 7 => 'Jul', 8 => 'Avg',
-        9 => 'Sep', 10 => 'Okt', 11 => 'Nov', 12 => 'Dec'
-    ];
-    foreach ($slovenski_meseci as $st => $ime):
-    ?>
-        <a href="?mesec=<?= $st ?>&leto=<?= $leto ?>" class="meseci"><?= $ime ?></a>
-    <?php endforeach; ?>
-</div>
+
 
 </body>
 </html>

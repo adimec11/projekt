@@ -42,16 +42,10 @@ if (isset($_SESSION['idu'])) {
         <div class="sidebar">
             <span class="sidebar-gumb">☰</span>
             <div class="sidebar-vsebina">
-<<<<<<< HEAD
-                <?php if (!isset($_SESSION['idu'])) echo '<a href="../index.php">LOGIN</a>'; ?>
-                <a href="../skupine.php">skupine</a>
-                <a href="../taski.php">taski</a>
-                <a href="../logout.php">Odjava</a>
-=======
-                <a href="skupine.php">skupine</a>
-                <a href="taski.php">tasks</a>
+                <?php if (!isset($_SESSION['idu'])) echo '<a href="index.php">LOGIN</a>'; ?>
+                <a href="skupine.php">Skupine</a>
+                <a href="taski.php">Taski</a>
                 <a href="logout.php">Odjava</a>
->>>>>>> 7531f4a0616bb931d86211e02edd60837c1f7059
             </div>
         </div>
     </td>
