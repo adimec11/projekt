@@ -56,7 +56,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['login'])) {
 	<form method="post">
 		<input type="text" name="mail" placeholder="E-mail" required class="polja"><br>
 		<input type="password" name="geslo" placeholder="Geslo" required class="polja"><br>
-		<input type="submit" name="login" value="Prijava" class="button">
+		<input type="submit" name="login" value="Prijava" class="prijava">
 	</form>
 
     <?php if (!empty($napaka)): ?>

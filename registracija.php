@@ -21,7 +21,7 @@ session_start();
         <input type="text" name="mail" placeholder="Vpišite e-mail" required class="polja">* <br>
         <input type="password" name="geslo" placeholder="Vpišite geslo" required class="polja">* <br>
 		<input type="text" name="telefonska" placeholder="Vpišite svojo tel. številko" class="polja"> <br>
-        <input type="submit" name="sub" value="Prijava" class="button">
+        <input type="submit" name="sub" value="Prijava" class="prijava">
     </form>
 
     <div id="registracija_zun">
