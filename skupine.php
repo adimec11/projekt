@@ -33,6 +33,11 @@ if (isset($_SESSION['idu'])) {
     <td><?=htmlspecialchars($uporabnik) ?></td>
 </table>
 
+<table class="koledar">
+    <tr>
+        
+    </tr>
+</table>
 
 </body>
 </html>
