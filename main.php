@@ -60,13 +60,11 @@ if (isset($_SESSION['idu'])) {
             <div class="sidebar-vsebina">
                 <a href="index.php">Profil</a>
                 <a href="main.php">Koledar</a>
->>>>>>> Stashed changes
                 <a href="logout.php">Odjava</a>
             </div>
         </div>
     </td>
-	<td><?=htmlspecialchars($uporabnik) ?></>
-
+	<td><?=htmlspecialchars($uporabnik) ?></td>
 </table>
 
 <table class="koledar">
