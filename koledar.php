@@ -75,7 +75,7 @@ $imeMeseca = date('F', $prviDanMeseca);
             </div>
         </div>
     </td>
-    <td><?= htmlspecialchars($uporabnik) ?></td>
+    <td><?= htmlspecialchars($uporabnik) ?></td> 
 </table>
 
 <h2><?= htmlspecialchars($imeMeseca) ?> <?= $leto ?></h2>
