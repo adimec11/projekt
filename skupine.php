@@ -23,6 +23,7 @@ if (isset($_SESSION['idu'])) {
             <span class="sidebar-gumb">☰</span>
             <div class="sidebar-vsebina">
                 <?php if (!isset($_SESSION['idu'])) echo '<a href="index.php">LOGIN</a>'; ?>
+                <a href="main.php">Domov</a>
                 <a href="skupine.php">Skupine</a>
                 <a href="taski.php">Taski</a>
                 <a href="logout.php">Odjava</a>

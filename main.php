@@ -38,6 +38,7 @@ if (isset($_SESSION['idu'])) {
 <img src="img/logo.jpg" class="logo">
 
 <table border="0">
+     <tr>
     <td>
         <div class="sidebar">
             <span class="sidebar-gumb">☰</span>
@@ -49,7 +50,7 @@ if (isset($_SESSION['idu'])) {
             </div>
         </div>
     </td>
-    <td><?=htmlspecialchars($uporabnik) ?></td>
+    <td><?=htmlspecialchars($uporabnik) ?></td></tr>
 </table>
 
 <table class="koledar">
