@@ -35,7 +35,11 @@ if (isset($_SESSION['idu'])) {
 
 <table class="koledar">
     <tr>
-        
+        <td>
+            <form method="post">
+                <input type="submit" name="dodaj_skupine" value="Prijava" class="dodaj">
+            </form>
+        </td>
     </tr>
 </table>
 
