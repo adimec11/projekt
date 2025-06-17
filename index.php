@@ -3,7 +3,7 @@ require_once 'baza.php';
 session_start();
 
 $napaka = '';
-if (!isset($_SESSION['idu'])) {
+if (isset($_SESSION['idu'])) {
     header("Location: main.php");
     exit;
 }
