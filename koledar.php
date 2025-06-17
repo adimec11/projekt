@@ -13,19 +13,8 @@ if (isset($_GET['mesec'])) {
     $mesec = date('n');
 }
 
-if (isset($_GET['leto'])) {
-    $leto = (int)$_GET['leto'];
-} else {
-    $leto = date('Y');
-}
 
-if ($mesec < 1 || $mesec > 12) {
-	$mesec = date('n');
-}
-	
-if ($leto < 2000 || $leto > 2100) {
-	$leto = date('Y');
-}
+
 
 $uporabnik =  '';
 if (isset($_SESSION['idu'])) {
@@ -36,14 +25,18 @@ $tasks_po_dnevih = [];
 
 $sql = "SELECT naslov, datum_začetka FROM taski WHERE uporabnik_id = ? AND MONTH(datum_začetka) = ? AND YEAR(datum_začetka) = ?";
 $stmt = mysqli_prepare($conn, $sql);
+
 mysqli_stmt_bind_param($stmt, "iii", $_SESSION['idu'], $mesec, $leto);
 mysqli_stmt_execute($stmt);
+
 $rezultat = mysqli_stmt_get_result($stmt);
+
 
 while ($row = mysqli_fetch_assoc($rezultat)) {
     $dan = (int)date('j', strtotime($row['datum_začetka']));
     $tasks_po_dnevih[$dan][] = $row['naslov'];
 }
+
 mysqli_stmt_close($stmt);
 //stackoverflow meseci
 $prviDanMeseca = mktime(0, 0, 0, $mesec, 1, $leto);
@@ -55,7 +48,7 @@ $imeMeseca = date('F', $prviDanMeseca);
 <html lang="sl">
 <head>
     <meta charset="UTF-8">
-    <title>Koledar – <?= htmlspecialchars($imeMeseca) ?> <?= $leto ?></title>
+    <title>Koledar – <?= htmlspecialchars($imeMeseca) ?> 2025</title>
     <link rel="stylesheet" href="css/stil.css">
     <link rel="icon" href="img/logo.ico">
 </head>
@@ -78,7 +71,7 @@ $imeMeseca = date('F', $prviDanMeseca);
     <td><?= htmlspecialchars($uporabnik) ?></td> 
 </table>
 
-<h2><?= htmlspecialchars($imeMeseca) ?> <?= $leto ?></h2>
+<h2><?= htmlspecialchars($imeMeseca) ?> </h2>
 
 <table class="koledar">
     <tr id="dnevi_v_ted">
