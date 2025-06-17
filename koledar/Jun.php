@@ -46,11 +46,11 @@ if (isset($_SESSION['idu'])) {
         <div class="sidebar">
             <span class="sidebar-gumb">☰</span>
             <div class="sidebar-vsebina">
-				<?php if (!isset($_SESSION['idu'])) echo '<a href="index.php">LOGIN</a>'; ?>
+				<?php if (!isset($_SESSION['idu'])) echo '<a href="../index.php">LOGIN</a>'; ?>
 
                 <a href="../skupine.php">skupine</a>
                 <a href="../taski.php">taksi</a>
-                <a href="../../logout.php">Odjava</a> 
+                <a href="../logout.php">Odjava</a> 
             </div>
         </div>
     </td>
