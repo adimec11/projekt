@@ -112,19 +112,6 @@ $imeMeseca = date('F', $prviDanMeseca);
     ?>
 </table>
 
-<!-- 📅 Gumb za vse mesece -->
-<div class="mesec-nav">
-    <?php
-    $slovenski_meseci = [
-        1 => 'Jan', 2 => 'Feb', 3 => 'Mar', 4 => 'Apr',
-        5 => 'Maj', 6 => 'Jun', 7 => 'Jul', 8 => 'Avg',
-        9 => 'Sep', 10 => 'Okt', 11 => 'Nov', 12 => 'Dec'
-    ];
-    foreach ($slovenski_meseci as $st => $ime):
-    ?>
-        <a href="?mesec=<?= $st ?>&leto=<?= $leto ?>" class="meseci"><?= $ime ?></a>
-    <?php endforeach; ?>
-</div>
 
 </body>
 </html>
