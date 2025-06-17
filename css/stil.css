@@ -183,13 +183,12 @@ table{
     user-select: none;
 }
 
-/* 🌐 Meni bo DESNO od gumba */
 .sidebar-vsebina {
-    width: 100px;
+    width: 150px;
     display: none;
     position: absolute;
     background-color: dodgerblue;
-    left: 1px;
+    left: -15px;
     padding: 10px;
     margin-top:5px;
     border-radius: 8px;

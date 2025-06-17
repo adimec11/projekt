@@ -36,10 +36,18 @@ if (isset($_SESSION['idu'])) {
 <body>
 <img src="../img/logo.jpg" class="logo">
 <table border="0">
-	<tr>
-		<td><a href="../login.php" id="registracija"><span class="more">☰</span></a></td>
-		<td><?=htmlspecialchars($uporabnik) ?></>
-	</tr>
+    <td>
+        <div class="sidebar">
+            <span class="sidebar-gumb">☰</span>
+            <div class="sidebar-vsebina">
+                <?php if (!isset($_SESSION['idu'])) echo '<a href="../index.php">LOGIN</a>'; ?>
+                <a href="../skupine.php">skupine</a>
+                <a href="../taski.php">taski</a>
+                <a href="../logout.php">Odjava</a>
+            </div>
+        </div>
+    </td>
+    <td><?=htmlspecialchars($uporabnik) ?></td>
 </table>
 <table class="koledar">
 	<tr id="dnevi_v_ted">
