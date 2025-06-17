@@ -4,13 +4,13 @@ session_start();
 
 $uporabnik = '';
 $obvestilo = '';
-
+$ime_skupine= '';
 if (isset($_SESSION['idu'])) {
     $uporabnik = $_SESSION['polno_ime'];
     $uporabnik_id = $_SESSION['idu'];
 
     if (isset($_POST['dodaj_skupine'])) {
-        $ime_skupine = trim($_POST['ime_skupine']);
+        $ime_skupine = $_POST['ime_skupine'];
 
         if (!empty($ime_skupine)) {
             // 1. Preveri, če uporabnik že obstaja v vodje_skupine
@@ -23,7 +23,7 @@ if (isset($_SESSION['idu'])) {
                 mysqli_query($conn, $sql);
                 $vodja_id = mysqli_insert_id($conn);
             } else {
-                $vrstica = mysqli_fetch_assoc($rezultat);
+                $vrstica = mysqli_fetch_array($rezultat);
                 $vodja_id = $vrstica['id'];
             }
 
@@ -71,13 +71,13 @@ if (isset($_SESSION['idu'])) {
     <td><?= htmlspecialchars($uporabnik) ?></td>
 </table>
 
-<table class="koledar">
+<table class="tabela">
     <tr><td class="button"><h2>Registracija nove skupine</h2></td></tr>
     <tr>
         <td style="all: unset;">
             <?php if (!empty($obvestilo)) echo '<p style="color:white; font-weight:bold;">' . htmlspecialchars($obvestilo) . '</p>'; ?>
             <form method="post">
-                <input type="text" name="ime_skupine" class="polja" placeholder="Ime skupine" class="button">
+                <input type="text" name="ime_skupine" class="polja" placeholder="Ime skupine">
                 <input type="submit" name="dodaj_skupine" value="Ustvari" class="button">
             </form>
         </td>

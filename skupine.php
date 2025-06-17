@@ -25,7 +25,18 @@ if (isset($_SESSION['idu'])) {
             $dodaj_skupine .= "<tr>";
         }
 
-        $dodaj_skupine .= "<td>" . htmlspecialchars($row['ime_skupine']) . "</td>";
+        $dodaj_skupine .= "<td style='height:150px;width:250px;'>"
+            // Link za ogled skupine (GET)
+            . "<a href='skupina_pod.php?ime_skupine=" . urlencode($row['ime_skupine']) . "'>"
+            . htmlspecialchars($row['ime_skupine'])
+            . "</a>"
+
+            // Link za zapustitev skupine (GET s parametrom zapusti)
+            . "<a href='izpis_skupine.php?ime_skupine=" . urlencode($row['ime_skupine']) . "&zapusti=1' "
+            . "style='float:right; color:red; font-size:16px; text-decoration:none;'>ZAPUSTI</a>"
+
+            . "</td>";
+
         $stevec++;
 
         if ($stevec % 4 == 0 || $stevec == 12) {
@@ -37,11 +48,6 @@ if (isset($_SESSION['idu'])) {
         $dodaj_skupine = "<tr><td colspan='4'>Ni najdenih skupin</td></tr>";
 
 }
-
-
-// Izpiši rezultat
-
-
 
 ?>
 <!DOCTYPE html>
@@ -72,11 +78,12 @@ if (isset($_SESSION['idu'])) {
 </table>
 
 <table class="koledar">
-    <?=$dodaj_skupine?>
-    <tr>
-        <td style="all: unset;">
+
+
+        <?=$dodaj_skupine?>
+        <td style="all:unset;">
             <form method="post" action="vpis_skupin.php">
-                <input type="submit" name="dodaj_skupine" value="+" class="button" style="height:150px;">
+                <input type="submit" name="dodaj_skupine" value="+" class="button" style="height:150px; width: 250px;">
             </form>
         </td>
     </tr>

@@ -73,7 +73,7 @@ $imeMeseca = date('F', $prviDanMeseca);
 
 <h2><?= htmlspecialchars($imeMeseca) ?> </h2>
 
-<table class="koledar">
+<table class="tabela">
     <tr id="dnevi_v_ted">
         <td>Pon</td><td>Tor</td><td>Sre</td><td>Čet</td><td>Pet</td><td>Sob</td><td>Ned</td>
     </tr>
