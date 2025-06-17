@@ -112,7 +112,10 @@ $imeMeseca = date('F', $prviDanMeseca);
     ?>
 </table>
 
+<<<<<<< HEAD
 
+=======
+>>>>>>> 57b0e35261210a867498256fcf6ece0cedc71ab5
 
 </body>
 </html>
