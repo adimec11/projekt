@@ -102,14 +102,6 @@ h1{
     margin: 5px;
 }
 
-
-
-
-
-
-
-
-
 /* glavna stran */
 
 table{
@@ -163,6 +155,21 @@ table{
     width: 100%;
     height: 100%;
 }
+
+/*skupine*/
+.button{
+    background-color: dodgerblue;
+    color: black;
+    font-size: 50px;
+    border: 5px solid royalblue;
+    width:200px;
+    height:150px;
+    border-radius: 10px;
+}
+.button:hover{
+    border-color: black;
+}
+
 /*sidebar*/
 .sidebar {
     position: relative;

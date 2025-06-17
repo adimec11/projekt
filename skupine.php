@@ -5,6 +5,8 @@ $uporabnik= '';
 if (isset($_SESSION['idu'])) {
     $uporabnik = $_SESSION['polno_ime'];
 }
+
+
 ?>
 <!DOCTYPE html>
 <html lang="sl">
@@ -35,11 +37,9 @@ if (isset($_SESSION['idu'])) {
 
 <table class="koledar">
     <tr>
-        <td>
-            <form method="post">
-                <input type="submit" name="dodaj_skupine" value="Prijava" class="dodaj">
-            </form>
-        </td>
+        <td><a href="vpis_skupin.php"></a></td>
+
+
     </tr>
 </table>
 
