@@ -54,66 +54,66 @@ if (isset($_SESSION['idu'])) {
 
 <table class="koledar">
 	<tr>
-		<td><a href="koledar/Jan.php" class="meseci">Jan</a>
+		<td><a href="koledar.php?mesec=1" class="meseci">Jan</a>
             <?php foreach ($taski_po_mesecih[1] as $task): ?>
 				<div class="task"><?= htmlspecialchars($task) ?></div>
             <?php endforeach; ?>
 		</td>
-		<td><a href="koledar/Feb.php" class="meseci">Feb</a>
+		<td><a href="koledar.php?mesec=2" class="meseci">Feb</a>
             <?php foreach ($taski_po_mesecih[2] as $task): ?>
 				<div class="task"><?= htmlspecialchars($task) ?></div>
             <?php endforeach; ?>
 		</td>
-		<td><a href="koledar/Mar.php" class="meseci">Mar</a>
+		<td><a href="koledar.php?mesec=3" class="meseci">Mar</a>
             <?php foreach ($taski_po_mesecih[3] as $task): ?>
 				<div class="task"><?= htmlspecialchars($task) ?></div>
             <?php endforeach; ?>
 		</td>
-		<td><a href="koledar/Apr.php" class="meseci">Apr</a>
+		<td><a href="koledar.php?mesec=4" class="meseci">Apr</a>
             <?php foreach ($taski_po_mesecih[4] as $task): ?>
 				<div class="task"><?= htmlspecialchars($task) ?></div>
             <?php endforeach; ?>
 		</td>
 	</tr>
 	<tr>
-		<td><a href="koledar/Maj.php" class="meseci">Maj</a>
+		<td><a href="koledar.php?mesec=5" class="meseci">Maj</a>
             <?php foreach ($taski_po_mesecih[5] as $task): ?>
 				<div class="task"><?= htmlspecialchars($task) ?></div>
             <?php endforeach; ?>
 		</td>
-		<td><a href="koledar/Jun.php" class="meseci">Jun</a>
+		<td><a href="koledar.php?mesec=6" class="meseci">Jun</a>
             <?php foreach ($taski_po_mesecih[6] as $task): ?>
 				<div class="task"><?= htmlspecialchars($task) ?></div>
             <?php endforeach; ?>
 		</td>
-		<td><a href="koledar/Jul.php" class="meseci">Jul</a>
+		<td><a href="koledar.php?mesec=7" class="meseci">Jul</a>
             <?php foreach ($taski_po_mesecih[7] as $task): ?>
 				<div class="task"><?= htmlspecialchars($task) ?></div>
             <?php endforeach; ?>
 		</td>
-		<td><a href="koledar/Avg.php" class="meseci">Avg</a>
+		<td><a href="koledar.php?mesec=8" class="meseci">Avg</a>
             <?php foreach ($taski_po_mesecih[8] as $task): ?>
 				<div class="task"><?= htmlspecialchars($task) ?></div>
             <?php endforeach; ?>
 		</td>
 	</tr>
 	<tr>
-		<td><a href="koledar/Sep.php" class="meseci">Sep</a>
+		<td><a href="koledar.php?mesec=9" class="meseci">Sep</a>
             <?php foreach ($taski_po_mesecih[9] as $task): ?>
 				<div class="task"><?= htmlspecialchars($task) ?></div>
             <?php endforeach; ?>
 		</td>
-		<td><a href="koledar/Okt.php" class="meseci">Okt</a>
+		<td><a href="koledar.php?mesec=10" class="meseci">Okt</a>
             <?php foreach ($taski_po_mesecih[10] as $task): ?>
 				<div class="task"><?= htmlspecialchars($task) ?></div>
             <?php endforeach; ?>
 		</td>
-		<td><a href="koledar/Nov.php" class="meseci">Nov</a>
+		<td><a href="koledar.php?mesec=11" class="meseci">Nov</a>
             <?php foreach ($taski_po_mesecih[11] as $task): ?>
 				<div class="task"><?= htmlspecialchars($task) ?></div>
             <?php endforeach; ?>
 		</td>
-		<td><a href="koledar/Dec.php" class="meseci">Dec</a>
+		<td><a href="koledar.php?mesec=12" class="meseci">Dec</a>
             <?php foreach ($taski_po_mesecih[12] as $task): ?>
 				<div class="task"><?= htmlspecialchars($task) ?></div>
             <?php endforeach; ?>
