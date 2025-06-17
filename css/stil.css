@@ -139,18 +139,73 @@ table{
 
 }
 .koledar td{
+    position:relative;
     font-size: 30px;
     height:50px;
     width:250px;
     border: 5px solid royalblue;
     border-radius: 10px;
     color: black;
+    
 }
-.koledar td::hover{
+.koledar td:hover{
     border-color: black;
 }
 .meseci{
     text-decoration: none;
     color: black;
     font-weight: bold;
+}
+.dnevi_v_ted{
+    border-color:black;
+}
+.koledar td a{
+    display:block;
+    width: 100%;
+    height: 100%;
+}
+/*sidebar*/
+.dropdown {
+    position: relative;
+    display: inline-block;
+}
+
+.menu-btn {
+    background-color: #00bfff;
+    padding: 6px 10px;
+    font-size: 24px;
+    border-radius: 6px;
+    cursor: pointer;
+    color: black;
+    user-select: none;
+}
+
+/* 🌐 Meni bo DESNO od gumba */
+.dropdown-content {
+    display: none;
+    position: absolute;
+    background-color: dodgerblue;
+    min-width: 140px;
+    box-shadow: 0px 8px 16px rgba(0,0,0,0.2);
+    z-index: 1;
+    left: 100%;       /* premakni desno od gumba */
+    top: 0;           /* poravnano navpično z gumbom */
+    border-radius: 6px;
+    overflow: hidden;
+}
+
+.dropdown-content a {
+    color: black;
+    padding: 10px 16px;
+    text-decoration: none;
+    display: block;
+}
+
+.dropdown-content a:hover {
+    background-color: royalblue;
+}
+
+/* Pokaži meni ob hoverju */
+.dropdown:hover .dropdown-content {
+    display: block;
 }

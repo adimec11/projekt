@@ -1,7 +1,7 @@
 <?php
-$host='sql209.infinityfree.com';
-$user='if0_39102746';
-$password='aMCW0WPZpCCuQUh';
+$host='localhost';
+$user='root';
+$password='';
 $database='todolist';
 
 $conn=mysqli_connect($host,$user,$password,$database)

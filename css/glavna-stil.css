@@ -1,0 +1,32 @@
+body{
+      background-color: deepskyblue;
+}
+table{
+      background-color: dodgerblue;
+      border-radius: 10px;
+      padding: 10px;
+      margin: 10px;
+}
+.more{
+      height: 20px;
+}
+
+.logo{
+      height: 100px;
+      float: right;
+      border-radius: 10px;
+}
+.koledar{
+      margin: 0 auto;
+      padding: 100px;
+      text-align:center;
+}
+.koledar td{
+      font-size: 30px;
+      padding: 20px;
+      border: 5px solid black;
+      border-radius: 10px;
+      margin-right: 20px;
+      border-collapse: separate;
+      border-spacing: 100px;
+}

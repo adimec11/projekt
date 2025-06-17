@@ -19,15 +19,14 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['login'])) {
 
     if ($uporabnik) {
         if (password_verify($geslo, $uporabnik['geslo'])) {
-            // shrani v sejo
             $_SESSION['idu'] = $uporabnik['id'];
             $_SESSION['ime'] = $uporabnik['ime'];
             $_SESSION['priimek'] = $uporabnik['priimek'];
             $_SESSION['u_ime'] = $uporabnik['uporabnisko_ime'];
             $_SESSION['mail'] = $uporabnik['e-posta'];
             $_SESSION['log'] = true;
+			$_SESSION['polno_ime'] = $uporabnik['ime'] . ' ' . $uporabnik['priimek'];
 
-            // redirect
             header("Location: main.php");
             exit();
         } else {

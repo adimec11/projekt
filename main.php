@@ -2,7 +2,7 @@
 session_start();
 require_once 'baza.php';
 
-$taski_po_mesecih = array_fill(1, 12, []); // Inicializiramo 12 praznih mesecev
+$taski_po_mesecih = array_fill(1, 12, []); 
 
 if (isset($_SESSION['idu'])) {
     $sql = "SELECT naslov, datum_začetka FROM taski WHERE uporabnik_id = ? ORDER BY datum_začetka LIMIT 50";
@@ -20,7 +20,7 @@ if (isset($_SESSION['idu'])) {
     }
 
     mysqli_stmt_close($stmt);
-	$uporabnik = $_SESSION['u_ime'];
+	$uporabnik = $_SESSION['polno_ime'];
 }
 ?>
 <!DOCTYPE html>
@@ -34,11 +34,17 @@ if (isset($_SESSION['idu'])) {
 <body>
 <img src="img/logo.jpg" class="logo">
 
-<table border="0">
-	<tr>
-		<td><a href="login.php" id="registracija"><span class="more">☰</span></a></td>
-		<td><?=htmlspecialchars($uporabnik) ?></td>
-	</tr>
+<table border="1">
+    <td>
+        <div class="dropdown">
+            <span class="menu-btn">☰</span>
+            <div class="dropdown-content">
+                <a href="profil.php">Profil</a>
+                <a href="koledar.php">Koledar</a>
+                <a href="logout.php">Odjava</a>
+            </div>
+        </div>
+    </td>
 </table>
 
 <table class="koledar">

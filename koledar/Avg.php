@@ -1,5 +1,32 @@
+<?php
+session_start();
+require_once '../baza.php';
+
+$mesec = 8;
+$leto = 2025;
+
+
+$tasks_po_dnevih = [];
+
+
+if (isset($_SESSION['idu'])) {
+    $sql = "SELECT naslov, datum_začetka FROM taski WHERE uporabnik_id = ? AND MONTH(datum_začetka) = ? AND YEAR(datum_začetka) = ?";
+    $stmt = mysqli_prepare($conn, $sql);
+    mysqli_stmt_bind_param($stmt, "iii", $_SESSION['idu'], $mesec, $leto);
+    mysqli_stmt_execute($stmt);
+    $rezultat = mysqli_stmt_get_result($stmt);
+
+    while ($row = mysqli_fetch_assoc($rezultat)) {
+        $dan = (int)date('j', strtotime($row['datum_začetka']));
+        $tasks_po_dnevih[$dan][] = $row['naslov'];
+    }
+
+    mysqli_stmt_close($stmt);
+    $uporabnik = $_SESSION['u_ime'];
+}
+?>
 <!DOCTYPE html>
-<html lang="en">
+<html lang="sl">
 <head>
     <meta charset="UTF-8">
     <title>Glavna stran</title>
@@ -11,61 +38,43 @@
 <table border="0">
     <tr>
         <td><a href="../login.php" id="registracija"><span class="more">☰</span></a></td>
-        <td> <?php echo 'Andraž Dimec'?></td>
+        <td><?=htmlspecialchars($uporabnik) ?></>
     </tr>
 </table>
 <table class="koledar">
     <tr id="dnevi_v_ted">
-        <td>Pon</td>
-        <td>Tor</td>
-        <td>Sre</td>
-        <td>Čet</td>
-        <td>Pet</td>
-        <td>Sob</td>
-        <td>Ned</td>
+        <td>Pon</td><td>Tor</td><td>Sre</td><td>Čet</td><td>Pet</td><td>Sob</td><td>Ned</td>
     </tr>
-    <tr>
-        <td>1</td>
-        <td>2</td>
-        <td>3</td>
-        <td>4</td>
-        <td>5</td>
-        <td>6</td>
-        <td>7</td>
-    </tr>
-    <tr>
-        <td>8</td>
-        <td>9</td>
-        <td>10</td>
-        <td>11</td>
-        <td>12</td>
-        <td>13</td>
-        <td>14</td>
-    </tr>
-    <tr>
-        <td>15</td>
-        <td>16</td>
-        <td>17</td>
-        <td>18</td>
-        <td>19</td>
-        <td>20</td>
-        <td>21</td>
-    </tr>
-    <tr>
-        <td>22</td>
-        <td>23</td>
-        <td>24</td>
-        <td>25</td>
-        <td>26</td>
-        <td>27</td>
-        <td>28</td>
-    </tr>
-    <tr>
-        <td>29</td>
-        <td>30</td>
-        <td>31</td>
-    </tr>
-</table>
+    <?php
+    $prviDanMeseca = mktime(0, 0, 0, $mesec, 1, $leto);
+    $zacetniOffset = date('N', $prviDanMeseca);
+    $stDniVMesecu = date('t', $prviDanMeseca);
 
+    $dan = 1;
+    $zacetek = true;
+
+    while ($dan <= $stDniVMesecu) {
+        echo "<tr>";
+        for ($i = 1; $i <= 7; $i++) {
+            if ($zacetek && $i < $zacetniOffset) {
+                echo "<td></td>";
+            } elseif ($dan <= $stDniVMesecu) {
+                echo "<td><strong>$dan</strong>";
+                if (isset($tasks_po_dnevih[$dan])) {
+                    foreach ($tasks_po_dnevih[$dan] as $task) {
+                        echo "<span class='task'>" . htmlspecialchars($task) . "</span>";
+                    }
+                }
+                echo "</td>";
+                $dan++;
+                $zacetek = false;
+            } else {
+                echo "<td></td>";
+            }
+        }
+        echo "</tr>";
+    }
+    ?>
+</table>
 </body>
 </html>
