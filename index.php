@@ -1,39 +1,68 @@
-<!DOCTYPE html>
-<html lang="en">
+<?php
+require_once 'baza.php';
+session_start();
+
+$napaka = '';
+
+if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['login'])) {
+    $email = $_POST['mail'];
+    $geslo = $_POST['geslo'];
+
+    $sql = "SELECT id, ime, priimek, uporabnisko_ime, `e-posta`, geslo, pravica_id 
+            FROM uporabniki 
+            WHERE `e-posta` = ?";
+    $stmt = mysqli_prepare($conn, $sql);
+    mysqli_stmt_bind_param($stmt, "s", $email);
+    mysqli_stmt_execute($stmt);
+    $rezultat = mysqli_stmt_get_result($stmt);
+    $uporabnik = mysqli_fetch_assoc($rezultat);
+
+    if ($uporabnik) {
+        if (password_verify($geslo, $uporabnik['geslo'])) {
+            // shrani v sejo
+            $_SESSION['idu'] = $uporabnik['id'];
+            $_SESSION['ime'] = $uporabnik['ime'];
+            $_SESSION['priimek'] = $uporabnik['priimek'];
+            $_SESSION['u_ime'] = $uporabnik['uporabnisko_ime'];
+            $_SESSION['mail'] = $uporabnik['e-posta'];
+            $_SESSION['log'] = true;
+
+            // redirect
+            header("Location: main.php");
+            exit();
+        } else {
+            $napaka = "Napačno geslo.";
+        }
+    } else {
+        $napaka = "Uporabnik s tem e-mailom ne obstaja.";
+    }
+
+    mysqli_stmt_close($stmt);
+    mysqli_close($conn);
+}
+?><!DOCTYPE html>
+<html lang="sl">
 <head>
 	<meta charset="UTF-8">
-	<title>Glavna stran</title>
+	<title>Prijava</title>
 	<link rel="stylesheet" href="css/stil.css">
-    <link rel="icon" href="img/logo.ico">
 </head>
 <body>
-<img src="img/logo.jpg" class="logo">
-<table border="0">
-	<tr>
-        <td><a href="login.php" id="registracija"><span class="more">☰</span></a></td>
-		<td> <?php echo 'Andraž Dimec'?></td>
-	</tr>
-</table>
-<table class="koledar">
-	<tr>
-		<td><a href="koledar/Jan.php" class="meseci">Jan</td>
-		<td><a href="koledar/Feb.php" class="meseci">Feb</td>
-		<td><a href="koledar/Mar.php" class="meseci">Mar</td>
-		<td><a href="koledar/Apr.php" class="meseci">Apr</td>
-	</tr>
-	<tr>
-		<td><a href="koledar/Maj.php" class="meseci">Maj</td>
-		<td><a href="koledar/Jun.php" class="meseci">Jun</td>
-		<td><a href="koledar/Jul.php" class="meseci">Jul</td>
-		<td><a href="koledar/Avg.php" class="meseci">Avg</td>
-	</tr>
-	<tr>
-		<td><a href="koledar/Sep.php" class="meseci">Sep</td>
-		<td><a href="koledar/Okt.php" class="meseci">Okt</td>
-		<td><a href="koledar/Nov.php" class="meseci">Nov</td>
-		<td><a href="koledar/Dec.php" class="meseci">Dec</td>
-	</tr>
-</table>
+<div class="login">
+	<h1>Prijava</h1>
+	<form method="post">
+		<input type="text" name="mail" placeholder="E-mail" required class="polja"><br>
+		<input type="password" name="geslo" placeholder="Geslo" required class="polja"><br>
+		<input type="submit" name="login" value="Prijava" class="button">
+	</form>
 
+    <?php if (!empty($napaka)): ?>
+		<div class="error"><?= htmlspecialchars($napaka) ?></div>
+    <?php endif; ?>
+
+	<div id="registracija_zun">
+		<a href="registracija.php" id="registracija">Registracija</a><br>
+	</div>
+</div>
 </body>
 </html>

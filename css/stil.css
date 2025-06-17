@@ -146,6 +146,9 @@ table{
     border-radius: 10px;
     color: black;
 }
+.koledar td::hover{
+    border-color: black;
+}
 .meseci{
     text-decoration: none;
     color: black;

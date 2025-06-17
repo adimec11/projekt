@@ -1,7 +1,7 @@
-<?php
-
+<?php 
+require_once 'baza.php';
+session_start();
 ?>
-
 <!DOCTYPE html>
 <html lang="sl">
 <head>
@@ -14,12 +14,13 @@
 <img src="img/logo.jpg" class="logo" >
 <div class="login">
     <h1>Prijava</h1>
-    <form action="#" method="post" class="form">
-        <input type="text" name="username" placeholder="Vpišite svoje ime" required class="polja">* <br>
-        <input type="text" name="surname" placeholder="Vpišite svoj priimek" required class="polja">* <br>
-        <input type="text" name="username" placeholder="Vpišite svojo tel. številko" class="polja"> <br>
+    <form action="vpis_uporabnikov.php" method="post" class="form">
+        <input type="text" name="ime" placeholder="Vpišite svoje ime" required class="polja">* <br>
+        <input type="text" name="priimek" placeholder="Vpišite svoj priimek" required class="polja">* <br>
+		<input type="text" name="up_ime" placeholder="Vpišite uporabniško ime" required class="polja">* <br>
         <input type="text" name="mail" placeholder="Vpišite e-mail" required class="polja">* <br>
         <input type="password" name="geslo" placeholder="Vpišite geslo" required class="polja">* <br>
+		<input type="text" name="telefonska" placeholder="Vpišite svojo tel. številko" class="polja"> <br>
         <input type="submit" name="sub" value="Prijava" class="button">
     </form>
 
