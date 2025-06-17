@@ -168,6 +168,10 @@ table{
 .sidebar {
     position: relative;
     display: inline-block;
+    width: 50px;
+}
+.sidebar_ime{
+    float: left;
 }
 
 .sidebar-gumb {
@@ -182,10 +186,12 @@ table{
 
 /* 🌐 Meni bo DESNO od gumba */
 .sidebar-vsebina {
+
     display: none;
     position: absolute;
     background-color: dodgerblue;
-    padding: 10px;        /* poravnano navpično z gumbom */
+    padding: 10px;
+    margin-top:5px;
     border-radius: 8px;
 
 }

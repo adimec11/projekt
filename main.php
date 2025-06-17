@@ -49,7 +49,7 @@ if (isset($_SESSION['idu'])) {
             </div>
         </div>
     </td>
-	<td><?=htmlspecialchars($uporabnik) ?></td>
+	<td class="sidebar_ime"><?=htmlspecialchars($uporabnik) ?></td>
 </table>
 
 <table class="koledar">
