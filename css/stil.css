@@ -165,7 +165,7 @@ table{
     height: 100%;
 }
 /*sidebar*/
-.sidebar .sidebar-gumb {
+.sidebar {
     position: relative;
     display: inline-block;
 }
@@ -185,12 +185,12 @@ table{
 
 /* 🌐 Meni bo DESNO od gumba */
 .sidebar-vsebina {
-    width: 120px;
+    width: 100px;
     display: none;
     position: absolute;
     background-color: dodgerblue;
+    left: 1px;
     padding: 10px;
-    left: 20px;
     margin-top:5px;
     border-radius: 8px;
 
