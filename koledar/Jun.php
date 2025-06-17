@@ -33,7 +33,7 @@ if (isset($_SESSION['idu'])) {
 <head>
     <meta charset="UTF-8">
     <title>Glavna stran</title>
-    <link rel="stylesheet" href="../css/stil.css">
+    <link rel="stylesheet" href="css/stil.css">
     <link rel="icon" href="../img/logo.ico">
 </head>
 <body>
