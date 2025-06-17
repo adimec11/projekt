@@ -2,17 +2,19 @@
 session_start();
 require_once 'baza.php';
 
-$taski_po_mesecih = array_fill(1, 12, []); 
+$taski_po_mesecih = array_fill(1, 12, []); //stackpverflow
+
 	$uporabnik = '';
 if (isset($_SESSION['idu'])) {
-    $sql = "SELECT naslov, datum_začetka FROM taski WHERE uporabnik_id = ? ORDER BY datum_začetka LIMIT 50";
+	
+    $sql = "SELECT naslov, datum_začetka FROM taski WHERE uporabnik_id = ? ORDER BY datum_začetka ";
     $stmt = mysqli_prepare($conn, $sql);
     mysqli_stmt_bind_param($stmt, "i", $_SESSION['idu']);
     mysqli_stmt_execute($stmt);
 
     $rezultat = mysqli_stmt_get_result($stmt);
 
-    while ($row = mysqli_fetch_assoc($rezultat)) {
+    while ($row = mysqli_fetch_array($rezultat)) {
         $mesec = (int)date('n', strtotime($row['datum_začetka'])); // 1 = jan, 12 = dec
         if (count($taski_po_mesecih[$mesec]) < 5) {
             $taski_po_mesecih[$mesec][] = $row['naslov'];
