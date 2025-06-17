@@ -42,12 +42,15 @@ if (isset($_SESSION['idu'])) {
 <<<<<<< Updated upstream
 <<<<<<< Updated upstream
 <<<<<<< Updated upstream
+<<<<<<< Updated upstream
         <div class="dropdown">
             <span class="menu-btn">☰</span>
             <div class="dropdown-content">
                 <a href="skupine.php">skupine</a>
                 <a href="taski.php">taksi</a>
 =======
+=======
+>>>>>>> Stashed changes
 =======
 >>>>>>> Stashed changes
 =======
