@@ -44,7 +44,7 @@ if (isset($_SESSION['idu'])) {
             <span class="sidebar-gumb">☰</span>
             <div class="sidebar-vsebina">
                 <a href="skupine.php">skupine</a>
-                <a href="taski.php">taksi</a>
+                <a href="taski.php">tasks</a>
                 <a href="logout.php">Odjava</a>
             </div>
         </div>
