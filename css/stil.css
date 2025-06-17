@@ -165,12 +165,12 @@ table{
     height: 100%;
 }
 /*sidebar*/
-.dropdown {
+.sidebar {
     position: relative;
     display: inline-block;
 }
 
-.menu-btn {
+.sidebar-gumb {
     background-color: #00bfff;
     padding: 6px 10px;
     font-size: 24px;
@@ -181,30 +181,27 @@ table{
 }
 
 /* 🌐 Meni bo DESNO od gumba */
-.dropdown-content {
+.sidebar-vsebina {
     display: none;
     position: absolute;
     background-color: dodgerblue;
-    min-width: 140px;
-    box-shadow: 0px 8px 16px rgba(0,0,0,0.2);
-    z-index: 1;
-    left: 100%;       /* premakni desno od gumba */
-    top: 0;           /* poravnano navpično z gumbom */
-    border-radius: 6px;
-    overflow: hidden;
+    padding: 10px;        /* poravnano navpično z gumbom */
+    border-radius: 8px;
+
 }
 
-.dropdown-content a {
+.sidebar-vsebina a {
     color: black;
     padding: 10px 16px;
     text-decoration: none;
     display: block;
 }
 
-.dropdown-content a:hover {
+.sidebar-vsebina a:hover {
+    border-radius: 8px;
     background-color: royalblue;
 }
 
-.dropdown:hover .dropdown-content {
+.sidebar:hover .sidebar-vsebina {
     display: block;
 }

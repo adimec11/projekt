@@ -39,11 +39,19 @@ if (isset($_SESSION['idu'])) {
 
 <table border="0">
     <td>
+<<<<<<< Updated upstream
         <div class="dropdown">
             <span class="menu-btn">☰</span>
             <div class="dropdown-content">
                 <a href="skupine.php">skupine</a>
                 <a href="taski.php">taksi</a>
+=======
+        <div class="sidebar">
+            <span class="sidebar-gumb">☰</span>
+            <div class="sidebar-vsebina">
+                <a href="index.php">Profil</a>
+                <a href="main.php">Koledar</a>
+>>>>>>> Stashed changes
                 <a href="logout.php">Odjava</a>
             </div>
         </div>
