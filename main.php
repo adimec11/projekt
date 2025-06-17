@@ -34,13 +34,13 @@ if (isset($_SESSION['idu'])) {
 <body>
 <img src="img/logo.jpg" class="logo">
 
-<table border="1">
+<table border="0">
     <td>
         <div class="dropdown">
             <span class="menu-btn">☰</span>
             <div class="dropdown-content">
-                <a href="profil.php">Profil</a>
-                <a href="koledar.php">Koledar</a>
+                <a href="index.php">Profil</a>
+                <a href="main.php">Koledar</a>
                 <a href="logout.php">Odjava</a>
             </div>
         </div>

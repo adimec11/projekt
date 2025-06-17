@@ -205,7 +205,6 @@ table{
     background-color: royalblue;
 }
 
-/* Pokaži meni ob hoverju */
 .dropdown:hover .dropdown-content {
     display: block;
 }
