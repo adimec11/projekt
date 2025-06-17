@@ -7,6 +7,7 @@ $leto = 2025;
 
 
 $tasks_po_dnevih = [];
+	$uporabnik = '';
 
 
 if (isset($_SESSION['idu'])) {
@@ -22,7 +23,9 @@ if (isset($_SESSION['idu'])) {
     }
 
     mysqli_stmt_close($stmt);
-    $uporabnik = $_SESSION['polno_ime'];
+	if (isset($_SESSION['idu'])) {
+			$uporabnik = $_SESSION['polno_ime'];
+		}	
 }
 ?>
 <!DOCTYPE html>
@@ -34,12 +37,24 @@ if (isset($_SESSION['idu'])) {
     <link rel="icon" href="../img/logo.ico">
 </head>
 <body>
-<img src="../img/logo.jpg" class="logo">
+
+<img src="img/logo.jpg" class="logo">
+
 <table border="0">
-    <tr>
-        <td><a href="../login.php" id="registracija"><span class="more">☰</span></a></td>
-        <td><?=htmlspecialchars($uporabnik) ?></>
-    </tr>
+    <td>
+
+        <div class="sidebar">
+            <span class="sidebar-gumb">☰</span>
+            <div class="sidebar-vsebina">
+				<?php if (!isset($_SESSION['idu'])) echo '<a href="index.php">LOGIN</a>'; ?>
+
+                <a href="../skupine.php">skupine</a>
+                <a href="../taski.php">taksi</a>
+                <a href="../../logout.php">Odjava</a> 
+            </div>
+        </div>
+    </td>
+	<td><?=htmlspecialchars($uporabnik) ?></td>
 </table>
 <table class="koledar">
     <tr id="dnevi_v_ted">
