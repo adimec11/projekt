@@ -2,24 +2,36 @@
 session_start();
 require_once 'baza.php';
 
-// 🔐 Preveri prijavo
 if (!isset($_SESSION['idu'])) {
     header("Location: ../index.php");
     exit;
 }
 
-// 🧠 Nastavi mesec in leto iz GET ali uporabi današnjega
-$mesec = isset($_GET['mesec']) ? (int)$_GET['mesec'] : date('n');
-$leto = isset($_GET['leto']) ? (int)$_GET['leto'] : date('Y');
+if (isset($_GET['mesec'])) {
+    $mesec = (int)$_GET['mesec'];
+} else {
+    $mesec = date('n');
+}
 
-// ✅ Varnostne meje
-if ($mesec < 1 || $mesec > 12) $mesec = date('n');
-if ($leto < 2000 || $leto > 2100) $leto = date('Y');
+if (isset($_GET['leto'])) {
+    $leto = (int)$_GET['leto'];
+} else {
+    $leto = date('Y');
+}
 
-// Pridobi uporabniško ime
-$uporabnik = $_SESSION['polno_ime'] ?? '';
+if ($mesec < 1 || $mesec > 12) {
+	$mesec = date('n');
+}
+	
+if ($leto < 2000 || $leto > 2100) {
+	$leto = date('Y');
+}
 
-// 📅 Pridobi naloge za določen mesec in leto
+$uporabnik =  '';
+if (isset($_SESSION['idu'])) {
+	$uporabnik = $_SESSION['polno_ime'];
+}
+	
 $tasks_po_dnevih = [];
 
 $sql = "SELECT naslov, datum_začetka FROM taski WHERE uporabnik_id = ? AND MONTH(datum_začetka) = ? AND YEAR(datum_začetka) = ?";
@@ -33,12 +45,11 @@ while ($row = mysqli_fetch_assoc($rezultat)) {
     $tasks_po_dnevih[$dan][] = $row['naslov'];
 }
 mysqli_stmt_close($stmt);
-
-// 📆 Koledarska logika
+//stackoverflow meseci
 $prviDanMeseca = mktime(0, 0, 0, $mesec, 1, $leto);
 $zacetniOffset = date('N', $prviDanMeseca); // 1 = pon, 7 = ned
 $stDniVMesecu = date('t', $prviDanMeseca);
-$imeMeseca = date('F', $prviDanMeseca); // ang. ime meseca (lahko zamenjaš za slovenščino)
+$imeMeseca = date('F', $prviDanMeseca); 
 ?>
 <!DOCTYPE html>
 <html lang="sl">
