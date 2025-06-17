@@ -39,17 +39,17 @@ if (isset($_SESSION['idu'])) {
 
 <table border="0">
     <td>
-
         <div class="sidebar">
             <span class="sidebar-gumb">☰</span>
             <div class="sidebar-vsebina">
-                <a href="skupine.php">skupine</a>
-                <a href="taski.php">taksi</a>
-                <a href="logout.php">Odjava</a>
+                <?php if (!isset($_SESSION['idu'])) echo '<a href="../index.php">LOGIN</a>'; ?>
+                <a href="../skupine.php">skupine</a>
+                <a href="../taski.php">taski</a>
+                <a href="../logout.php">Odjava</a>
             </div>
         </div>
     </td>
-	<td class="sidebar_ime"><?=htmlspecialchars($uporabnik) ?></td>
+    <td><?=htmlspecialchars($uporabnik) ?></td>
 </table>
 
 <table class="koledar">
