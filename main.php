@@ -3,7 +3,7 @@ session_start();
 require_once 'baza.php';
 
 $taski_po_mesecih = array_fill(1, 12, []); 
-
+	$uporabnik = '';
 if (isset($_SESSION['idu'])) {
     $sql = "SELECT naslov, datum_začetka FROM taski WHERE uporabnik_id = ? ORDER BY datum_začetka LIMIT 50";
     $stmt = mysqli_prepare($conn, $sql);
@@ -19,8 +19,11 @@ if (isset($_SESSION['idu'])) {
         }
     }
 
+
     mysqli_stmt_close($stmt);
-	$uporabnik = $_SESSION['polno_ime'];
+	if (isset($_SESSION['idu'])) {
+		$uporabnik = $_SESSION['polno_ime'];
+	}
 }
 ?>
 <!DOCTYPE html>
@@ -39,8 +42,8 @@ if (isset($_SESSION['idu'])) {
         <div class="dropdown">
             <span class="menu-btn">☰</span>
             <div class="dropdown-content">
-                <a href="index.php">Profil</a>
-                <a href="main.php">Koledar</a>
+                <a href="skupine.php">skupine</a>
+                <a href="taski.php">taksi</a>
                 <a href="logout.php">Odjava</a>
             </div>
         </div>

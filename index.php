@@ -3,7 +3,10 @@ require_once 'baza.php';
 session_start();
 
 $napaka = '';
-
+if (!isset($_SESSION['idu'])) {
+    header("Location: main.php");
+    exit;
+}
 if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['login'])) {
     $email = $_POST['mail'];
     $geslo = $_POST['geslo'];
