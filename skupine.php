@@ -82,7 +82,7 @@ if (isset($_SESSION['idu'])) {
 
         <?=$dodaj_skupine?>
         <td style="all:unset;">
-            <form method="post" action="vpis_skupin.php">
+            <form method="post" action="dodajanje_skupin.php">
                 <input type="submit" name="dodaj_skupine" value="+" class="button" style="height:150px; width: 250px;">
             </form>
         </td>
