@@ -47,7 +47,7 @@ if (isset($_SESSION['idu'])) {
             <div class="sidebar-vsebina">
                 <?php if (!isset($_SESSION['idu'])) echo '<a href="index.php">Login</a>'; ?>
                 <a href="skupine.php">Skupine</a>
-                <a href="taski.php">Moji Projekti</a>
+                <a href="up_projekti.php">Moji Projekti</a>
                 <a href="logout.php">Odjava</a>
             </div>
         </div>
