@@ -5,12 +5,13 @@ session_start();
 $uporabnik = '';
 $obvestilo = '';
 $ime_skupine= '';
+
 if (isset($_SESSION['idu'])) {
     $uporabnik = $_SESSION['polno_ime'];
     $uporabnik_id = $_SESSION['idu'];
 
     if (isset($_POST['dodaj_skupine'])) {
-        $ime_skupine = $_POST['ime_skupine'];
+        $ime_skupine = isset($_POST['ime_skupine']) ? trim($_POST['ime_skupine']) : '';
 
         if (!empty($ime_skupine)) {
             // 1. Preveri, če uporabnik že obstaja v vodje_skupine
@@ -35,8 +36,6 @@ if (isset($_SESSION['idu'])) {
             } else {
                 $obvestilo = "Napaka pri ustvarjanju skupine.";
             }
-        } else {
-            $obvestilo = "Ime skupine ne sme biti prazno.";
         }
     }
 } else {
@@ -57,18 +56,20 @@ if (isset($_SESSION['idu'])) {
 <img src="img/logo.jpg" class="logo">
 
 <table border="0">
-    <td>
-        <div class="sidebar">
-            <span class="sidebar-gumb">☰</span>
-            <div class="sidebar-vsebina">
-                <a href="main.php">Domov</a>
-                <a href="skupine.php">Skupine</a>
-                <a href="taski.php">Taski</a>
-                <a href="logout.php">Odjava</a>
+    <tr>
+        <td>
+            <div class="sidebar">
+                <span class="sidebar-gumb">☰</span>
+                <div class="sidebar-vsebina">
+                    <?php if (!isset($_SESSION['idu'])) echo '<a href="index.php">Login</a>'; ?>
+                    <a href="main.php">Domov</a>
+                    <a href="skupine.php">Skupine</a>
+                    <a href="taski.php">Taski</a>
+                    <a href="logout.php">Odjava</a>
+                </div>
             </div>
-        </div>
-    </td>
-    <td><?= htmlspecialchars($uporabnik) ?></td>
+        </td>
+        <td><?=htmlspecialchars($uporabnik) ?></td></tr>
 </table>
 
 <table class="tabela">

@@ -133,6 +133,7 @@ $kliknjen_task = isset($_POST['kliknjen_task']) ? $_POST['kliknjen_task'] : null
                 <span class="sidebar-gumb">☰</span>
                 <div class="sidebar-vsebina">
                     <?php if (!isset($_SESSION['idu'])) echo '<a href="index.php">Login</a>'; ?>
+                    <a href="main.php">Domov</a>
                     <a href="skupine.php">Skupine</a>
                     <a href="taski.php">Taski</a>
                     <a href="logout.php">Odjava</a>

@@ -57,21 +57,23 @@ $imeMeseca = date('F', $prviDanMeseca);
 <img src="img/logo.jpg" class="logo">
 
 <table border="0">
-    <td>
-        <div class="sidebar">
-            <span class="sidebar-gumb">☰</span>
-            <div class="sidebar-vsebina">
-                <a href="main.php">Domov</a>
-                <a href="skupine.php">Skupine</a>
-                <a href="taski.php">Naloge</a>
-                <a href="logout.php">Odjava</a>
+    <tr>
+        <td>
+            <div class="sidebar">
+                <span class="sidebar-gumb">☰</span>
+                <div class="sidebar-vsebina">
+                    <?php if (!isset($_SESSION['idu'])) echo '<a href="index.php">Login</a>'; ?>
+                    <a href="main.php">Domov</a>
+                    <a href="skupine.php">Skupine</a>
+                    <a href="taski.php">Taski</a>
+                    <a href="logout.php">Odjava</a>
+                </div>
             </div>
-        </div>
-    </td>
-    <td><?= htmlspecialchars($uporabnik) ?></td> 
+        </td>
+        <td><?=htmlspecialchars($uporabnik) ?></td></tr>
 </table>
 
-<h2><?= htmlspecialchars($imeMeseca) ?> </h2>
+<h2 style="text-align: center;"><?= htmlspecialchars($imeMeseca) ?> </h2>
 
 <table class="tabela">
     <tr id="dnevi_v_ted">

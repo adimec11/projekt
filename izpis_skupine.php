@@ -31,8 +31,8 @@ $sql = "SELECT s.id, s.vodja_id, vs.uporabnik_id
 $stmt = mysqli_prepare($conn, $sql);
 mysqli_stmt_bind_param($stmt, "ii", $skupina_id, $idu);
 mysqli_stmt_execute($stmt);
-$result = mysqli_stmt_get_result($stmt);
-$is_vodja = mysqli_num_rows($result) > 0;
+$rezultat = mysqli_stmt_get_result($stmt);
+$is_vodja = mysqli_num_rows($rezultat) > 0;
 
 // 3. Odstrani uporabnika iz uporabniki_skupine
 $sql = "DELETE FROM uporabniki_skupine WHERE uporabnik_id = ? AND skupina_id = ?";
@@ -42,6 +42,7 @@ mysqli_stmt_execute($stmt);
 
 // 4. Če je bil vodja, poišči novega vodjo
 if ($is_vodja) {
+
     $sql = "SELECT uporabnik_id FROM uporabniki_skupine WHERE skupina_id = ? ORDER BY RAND() LIMIT 1";
     $stmt = mysqli_prepare($conn, $sql);
     mysqli_stmt_bind_param($stmt, "i", $skupina_id);
