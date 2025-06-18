@@ -5,7 +5,7 @@ session_start();
 if (!isset($_SESSION['idu'])) {
     header("Location: index.php");
     exit;
-}else{
+} else {
     $uporabnik = $_SESSION['polno_ime'];
 }
 
@@ -30,8 +30,10 @@ if (!$skupina) {
 $skupina_id = $skupina['id'];
 $vodja_skupine_id = $skupina['vodja_id'];
 
-// Pridobi uporabnika, ki je vodja (iz tabele vodje_skupine)
+// Pridobi podatke o vodji
 $vodja_id = null;
+$vodja_ime = '';
+$vodja_priimek = '';
 
 if ($vodja_skupine_id) {
     $sql = "SELECT u.id, u.ime, u.priimek 
@@ -51,11 +53,33 @@ if ($vodja_skupine_id) {
 
 $je_vodja = $_SESSION['idu'] == $vodja_id;
 
-// Dodajanje uporabnika v skupino (če je vodja in je poslan POST)
+// Dodeli task trenutnemu uporabniku
+if (isset($_POST['prevzemi_task']) && !$je_vodja) {
+    $task_id = (int)$_POST['prevzemi_task'];
+    $uporabnik_id = $_SESSION['idu'];
+
+    // Preveri, ali task še nima uporabnika
+    $sql = "SELECT t.id 
+            FROM taski t
+            JOIN projekti p ON t.projekt_id = p.id
+            WHERE t.id = ? AND p.skupina_id = ? AND t.uporabnik_id IS NULL";
+    $stmt = mysqli_prepare($conn, $sql);
+    mysqli_stmt_bind_param($stmt, "ii", $task_id, $skupina_id);
+    mysqli_stmt_execute($stmt);
+    $res = mysqli_stmt_get_result($stmt);
+
+    if (mysqli_num_rows($res) > 0) {
+        $sql = "UPDATE taski SET uporabnik_id = ? WHERE id = ?";
+        $stmt = mysqli_prepare($conn, $sql);
+        mysqli_stmt_bind_param($stmt, "ii", $uporabnik_id, $task_id);
+        mysqli_stmt_execute($stmt);
+    }
+}
+
+// Dodajanje uporabnika v skupino
 $msg = '';
 if ($je_vodja && isset($_POST['dodaj_uporabnika'])) {
     $username = trim($_POST['username']);
-    // Poišči ID uporabnika po uporabniškem imenu
     $sql = "SELECT id FROM uporabniki WHERE uporabnisko_ime = ?";
     $stmt = mysqli_prepare($conn, $sql);
     mysqli_stmt_bind_param($stmt, "s", $username);
@@ -63,12 +87,10 @@ if ($je_vodja && isset($_POST['dodaj_uporabnika'])) {
     $rezultat = mysqli_stmt_get_result($stmt);
     if ($row = mysqli_fetch_array($rezultat)) {
         $nov_id = $row['id'];
-        // Dodaj uporabnika v skupino (če še ni član)
         $sql = "INSERT IGNORE INTO uporabniki_skupine (uporabnik_id, skupina_id) VALUES (?, ?)";
         $stmt = mysqli_prepare($conn, $sql);
         mysqli_stmt_bind_param($stmt, "ii", $nov_id, $skupina_id);
         mysqli_stmt_execute($stmt);
-
     } else {
         $msg = "Uporabnik ne obstaja.";
     }
@@ -81,38 +103,23 @@ mysqli_stmt_bind_param($stmt, "i", $skupina_id);
 mysqli_stmt_execute($stmt);
 $uporabniki = mysqli_stmt_get_result($stmt);
 
-// Pridobi projekt skupine (prvi projekt)
-$sql = "SELECT naslov FROM projekti WHERE skupina_id = ?";
+// Pridobi projekt skupine
+$sql = "SELECT id, naslov FROM projekti WHERE skupina_id = ?";
 $stmt = mysqli_prepare($conn, $sql);
 mysqli_stmt_bind_param($stmt, "i", $skupina_id);
 mysqli_stmt_execute($stmt);
 $projekti = mysqli_stmt_get_result($stmt);
 
-// Pridobi taske glede na to, ali je uporabnik vodja
-if ($je_vodja) {
-    $sql = "SELECT t.id, t.naslov, u.uporabnisko_ime 
-            FROM taski t 
-            LEFT JOIN uporabniki u ON t.uporabnik_id = u.id
-            JOIN projekti p ON t.projekt_id = p.id 
-            WHERE p.skupina_id = ?";
-    $stmt = mysqli_prepare($conn, $sql);
-    mysqli_stmt_bind_param($stmt, "i", $skupina_id);
-    mysqli_stmt_execute($stmt);
-    $taski = mysqli_stmt_get_result($stmt);
-} else {
-    $uporabnik_id = $_SESSION['idu'];
-    $sql = "SELECT t.id, t.naslov 
-            FROM taski t 
-            JOIN projekti p ON t.projekt_id = p.id 
-            WHERE p.skupina_id = ? AND t.uporabnik_id = ?";
-    $stmt = mysqli_prepare($conn, $sql);
-    mysqli_stmt_bind_param($stmt, "ii", $skupina_id, $uporabnik_id);
-    mysqli_stmt_execute($stmt);
-    $taski = mysqli_stmt_get_result($stmt);
-}
-
-// Obdelava klika na task brez JavaScript
-$kliknjen_task = isset($_POST['kliknjen_task']) ? $_POST['kliknjen_task'] : null;
+// Pridobi vse taske skupine z dodeljenimi uporabniki in projekti
+$sql = "SELECT t.id, t.naslov, t.opis, u.uporabnisko_ime, p.naslov AS projekt
+        FROM taski t
+        JOIN projekti p ON t.projekt_id = p.id
+        LEFT JOIN uporabniki u ON t.uporabnik_id = u.id
+        WHERE p.skupina_id = ?";
+$stmt = mysqli_prepare($conn, $sql);
+mysqli_stmt_bind_param($stmt, "i", $skupina_id);
+mysqli_stmt_execute($stmt);
+$taski = mysqli_stmt_get_result($stmt);
 ?>
 
 <!DOCTYPE html>
@@ -140,43 +147,36 @@ $kliknjen_task = isset($_POST['kliknjen_task']) ? $_POST['kliknjen_task'] : null
                 </div>
             </div>
         </td>
-        <td><?=htmlspecialchars($uporabnik) ?></td></tr>
+        <td><?= htmlspecialchars($uporabnik) ?></td>
+    </tr>
 </table>
 
-<h2 style="font-size: 40px;"><?= htmlspecialchars($ime_skupine) ?> </h2>
+<h2 style="font-size: 40px;"><?= htmlspecialchars($ime_skupine) ?></h2>
 
 <h3 style="font-size: 30px;">Projekti:</h3>
 <ul style="font-size:20px;">
-    <?php
-    if (mysqli_num_rows($projekti) > 0):
-        while ($p = mysqli_fetch_array($projekti)):
-            ?>
+    <?php if (mysqli_num_rows($projekti) > 0): ?>
+        <?php while ($p = mysqli_fetch_array($projekti)): ?>
             <li><?= htmlspecialchars($p['naslov']) ?></li>
-        <?php endwhile; else: ?>
+        <?php endwhile; ?>
+    <?php else: ?>
         <li>Ni projektov</li>
     <?php endif; ?>
 </ul>
+
 <table class="tabela">
     <tr>
-        <!-- VODJA SKUPINE -->
-        <td>
+        <td style="vertical-align: top;">
             <h3>Vodja skupine:</h3>
-            <p>
-                <?= $je_vodja
-                    ? '<strong>Ti si vodja</strong>'
-                    : htmlspecialchars($vodja_ime . ' ' . $vodja_priimek); ?>
-            </p>
+            <p><?= $je_vodja ? '<strong>Ti si vodja</strong>' : htmlspecialchars($vodja_ime . ' ' . $vodja_priimek); ?></p>
         </td>
-
-        <!-- ČLANI SKUPINE -->
-        <td>
+        <td style=" vertical-align: top;">
             <h3>Člani skupine:</h3>
             <ul>
                 <?php while ($u = mysqli_fetch_array($uporabniki)): ?>
                     <li style="float:left;"><?= htmlspecialchars($u['uporabnisko_ime']) ?></li><br>
                 <?php endwhile; ?>
             </ul>
-
             <?php if ($je_vodja): ?>
                 <form method="post">
                     <input type="text" name="username" placeholder="Uporabniško ime" required class="polja">
@@ -187,30 +187,38 @@ $kliknjen_task = isset($_POST['kliknjen_task']) ? $_POST['kliknjen_task'] : null
                 <?php endif; ?>
             <?php endif; ?>
         </td>
-
-        <!-- TASKI -->
-        <td>
+        <td style="vertical-align: top;">
             <h3>Taski ki so na voljo:</h3>
-            <ul>
-                <?php while ($t = mysqli_fetch_array($taski)): ?>
-                    <li>
-                        <?php if ($je_vodja): ?>
-                            <?= htmlspecialchars($t['naslov']) ?> (<?= htmlspecialchars(isset($t['uporabnisko_ime']) ? $t['uporabnisko_ime'] : 'brez uporabnika') ?>)
-                        <?php else: ?>
-                            <?php if ($kliknjen_task == $t['id']): ?>
-                                <?= htmlspecialchars($uporabnik) ?>
+            <form method="post">
+                <ul>
+                    <?php
+                    mysqli_data_seek($taski, 0);
+                    while ($t = mysqli_fetch_array($taski)):
+                        $je_dodeljen = !empty($t['uporabnisko_ime']);
+                        $task_je_moj = isset($t['uporabnisko_ime'], $_SESSION['uporabnisko_ime']) && $t['uporabnisko_ime'] === $_SESSION['uporabnisko_ime'];
+                        ?>
+                        <li>
+                            <?php if (!$je_vodja && !$je_dodeljen): ?>
+                                <button type="submit" name="prevzemi_task" value="<?= (int)$t['id'] ?>" class="button">
+                                    <?= htmlspecialchars($t['naslov']) ?> (<?= htmlspecialchars($t['projekt']) ?>)
+                                </button>
                             <?php else: ?>
-                                <form method="post">
-                                    <input type="hidden" class="polja" name="kliknjen_task" value="<?= $t['id'] ?>">
-                                    <input type="submit"  class="button" value="<?= htmlspecialchars($t['naslov']) ?>">
-                                </form>
-                            <?php endif; ?>
-                        <?php endif; ?>
+                                <span>
+                                    <strong><?= htmlspecialchars($t['naslov']) ?></strong><br>
+                                    Projekt: <?= htmlspecialchars($t['projekt']) ?>,
+                                    Uporabnik: <?= htmlspecialchars($t['uporabnisko_ime']) ?>
+                                </span>
 
-                    </li><br>
-                <?php endwhile; ?>
-            </ul><?php if ($je_vodja): ?>
-                <form method="post" action="dodajanje_taskov.php"><input type="submit" name="dodaj_task" value="dodaj_task" class="button"></form>
+                            <?php endif; ?>
+                        </li><br>
+                    <?php endwhile; ?>
+                </ul>
+            </form>
+            <?php if ($je_vodja): ?>
+                <form method="get" action="dodajanje_taskov_sk.php">
+                    <input type="hidden" name="ime_skupine" value="<?= htmlspecialchars($ime_skupine) ?>">
+                    <input type="submit" name="dodaj_task" value="Dodaj task" class="button">
+                </form>
             <?php endif; ?>
         </td>
     </tr>
@@ -220,7 +228,6 @@ $kliknjen_task = isset($_POST['kliknjen_task']) ? $_POST['kliknjen_task'] : null
         </td>
     </tr>
 </table>
-
 
 </body>
 </html>
