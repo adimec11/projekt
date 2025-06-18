@@ -4,7 +4,7 @@ session_start();
 
 $uporabnik = '';
 $obvestilo = '';
-$ime_skupine= '';
+$ime_skupine = '';
 
 if (isset($_SESSION['idu'])) {
     $uporabnik = $_SESSION['polno_ime'];
@@ -14,28 +14,46 @@ if (isset($_SESSION['idu'])) {
         $ime_skupine = isset($_POST['ime_skupine']) ? trim($_POST['ime_skupine']) : '';
 
         if (!empty($ime_skupine)) {
-            // 1. Preveri, če uporabnik že obstaja v vodje_skupine
-            $sql = "SELECT id FROM vodje_skupine WHERE uporabnik_id = $uporabnik_id";
-            $rezultat = mysqli_query($conn, $sql);
+            // Preveri, če skupina s tem imenom že obstaja
+            $sql = "SELECT id FROM skupine WHERE ime = ?";
+            $stmt = mysqli_prepare($conn, $sql);
+            mysqli_stmt_bind_param($stmt, "s", $ime_skupine);
+            mysqli_stmt_execute($stmt);
+            $rezultat = mysqli_stmt_get_result($stmt);
 
-            if (mysqli_num_rows($rezultat) == 0) {
-                // 2. Vstavi novega vodjo
-                $sql = "INSERT INTO vodje_skupine (uporabnik_id) VALUES ($uporabnik_id)";
-                mysqli_query($conn, $sql);
-                $vodja_id = mysqli_insert_id($conn);
+            if (mysqli_num_rows($rezultat) > 0) {
+                $obvestilo = "Skupina s tem imenom že obstaja. Izberite drugo ime.";
             } else {
-                $vrstica = mysqli_fetch_array($rezultat);
-                $vodja_id = $vrstica['id'];
-            }
+                // Preveri, če uporabnik že obstaja v vodje_skupine
+                $sql = "SELECT id FROM vodje_skupine WHERE uporabnik_id = ?";
+                $stmt = mysqli_prepare($conn, $sql);
+                mysqli_stmt_bind_param($stmt, "i", $uporabnik_id);
+                mysqli_stmt_execute($stmt);
+                $rezultat = mysqli_stmt_get_result($stmt);
 
-            // 3. Vstavi novo skupino
-            $ime_skupine_esc = mysqli_real_escape_string($conn, $ime_skupine);
-            $sql = "INSERT INTO skupine (ime, vodja_id) VALUES ('$ime_skupine_esc', $vodja_id)";
-            if (mysqli_query($conn, $sql)) {
-                $obvestilo = "Skupina '$ime_skupine' je bila uspešno ustvarjena.";
-            } else {
-                $obvestilo = "Napaka pri ustvarjanju skupine.";
+                if (mysqli_num_rows($rezultat) == 0) {
+                    $sql = "INSERT INTO vodje_skupine (uporabnik_id) VALUES (?)";
+                    $stmt = mysqli_prepare($conn, $sql);
+                    mysqli_stmt_bind_param($stmt, "i", $uporabnik_id);
+                    mysqli_stmt_execute($stmt);
+                    $vodja_id = mysqli_insert_id($conn);
+                } else {
+                    $vrstica = mysqli_fetch_array($rezultat);
+                    $vodja_id = $vrstica['id'];
+                }
+
+                // Vstavi novo skupino
+                $sql = "INSERT INTO skupine (ime, vodja_id) VALUES (?, ?)";
+                $stmt = mysqli_prepare($conn, $sql);
+                mysqli_stmt_bind_param($stmt, "si", $ime_skupine, $vodja_id);
+                if (mysqli_stmt_execute($stmt)) {
+                    $obvestilo = "Skupina '" . htmlspecialchars($ime_skupine) . "' je bila uspešno ustvarjena.";
+                } else {
+                    $obvestilo = "Napaka pri ustvarjanju skupine.";
+                }
             }
+        } else {
+            $obvestilo = "Ime skupine ne sme biti prazno.";
         }
     }
 } else {
@@ -43,6 +61,7 @@ if (isset($_SESSION['idu'])) {
     exit;
 }
 ?>
+
 
 <!DOCTYPE html>
 <html lang="sl">
@@ -88,5 +107,5 @@ if (isset($_SESSION['idu'])) {
     </tr>
 </table>
 
-</body>
+</body><?php include "footer.php";?>
 </html>

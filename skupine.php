@@ -90,5 +90,5 @@ if (isset($_SESSION['idu'])) {
 
 </table>
 
-</body>
+</body><?php include "footer.php";?>
 </html>

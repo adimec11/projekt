@@ -9,17 +9,25 @@ $dodaj_projekti = '';
 if (isset($_SESSION['idu'])) {
     $uporabnik = $_SESSION['polno_ime'];
     $uporabnik_id = $_SESSION['idu'];
+} else {
+    // Če uporabnik ni prijavljen, preusmeri na login
+    header("Location: index.php");
+    exit;
 }
 
-// Pridobi projekte, ki NIMAJO skupine in kjer ima uporabnik svoje taske
+// Pridobi projekte brez skupine, kjer ima uporabnik svoje naloge
 $sql = "
     SELECT DISTINCT p.id, p.naslov 
     FROM projekti p
-    LEFT JOIN taski t ON p.id = t.projekt_id
+    INNER JOIN taski t ON p.id = t.projekt_id
     WHERE p.skupina_id IS NULL AND t.uporabnik_id = ?
 ";
 
 $stmt = mysqli_prepare($conn, $sql);
+if (!$stmt) {
+    die("Napaka pri pripravi poizvedbe: " . mysqli_error($conn));
+}
+
 mysqli_stmt_bind_param($stmt, "i", $uporabnik_id);
 mysqli_stmt_execute($stmt);
 $result = mysqli_stmt_get_result($stmt);
@@ -46,9 +54,14 @@ while (($row = mysqli_fetch_assoc($result)) && $stevec < 12) {
 
     $stevec++;
 
-    if ($stevec % 4 == 0 || $stevec == 12) {
+    if ($stevec % 4 == 0) {
         $dodaj_projekti .= "</tr>";
     }
+}
+
+// Zapri odprto vrstico, če projektov ni deljivo s 4
+if ($stevec % 4 != 0) {
+    $dodaj_projekti .= "</tr>";
 }
 
 if ($stevec == 0) {
@@ -86,14 +99,14 @@ if ($stevec == 0) {
 </table>
 
 <table class="koledar">
-    <?=$dodaj_projekti?>
+    <?= $dodaj_projekti ?>
     <td style="all:unset;">
-        <form method="post" action="dodajanje_projektov.php">
+        <form method="post" action="dodajanje_o_projektov.php">
             <input type="submit" name="dodaj_projekt" value="+" class="button" style="height:150px; width: 250px;">
         </form>
     </td>
     </tr>
 </table>
 
-</body>
+</body><?php include "footer.php";?>
 </html>

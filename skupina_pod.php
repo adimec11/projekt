@@ -220,6 +220,7 @@ $taski = mysqli_stmt_get_result($stmt);
                     <input type="submit" name="dodaj_task" value="Dodaj task" class="button">
                 </form>
                 <form method="get" action="dodajanje_projektov_sk.php">
+                    <input type="hidden" name="ime_skupine" value="<?= htmlspecialchars($ime_skupine) ?>">
                     <input type="submit" name="dodaj_projekt" value="Dodaj projekt" class="button">
                 </form>
             <?php endif; ?>
@@ -232,5 +233,5 @@ $taski = mysqli_stmt_get_result($stmt);
     </tr>
 </table>
 
-</body>
+</body><?php include "footer.php";?>
 </html>

@@ -12,18 +12,27 @@ if (isset($_SESSION['idu'])) {
 
     if (isset($_POST['dodaj_projekt'])) {
         $ime_projekta = isset($_POST['ime_projekta']) ? trim($_POST['ime_projekta']) : '';
+        $datum_konca = isset($_POST['datum_konca']) ? trim($_POST['datum_konca']) : '';
 
-        if (!empty($ime_projekta)) {
-            // Escape string
-            $ime_projekta_esc = mysqli_real_escape_string($conn, $ime_projekta);
+        if (!empty($ime_projekta) && !empty($datum_konca)) {
+            // Pripravljen stavek (proceduralno)
+            $stmt = mysqli_prepare($conn, "INSERT INTO projekti (naslov, datum_konca, lastnik_id, skupina_id) VALUES (?, ?, ?,NULL)");
 
-            // Vstavi osebni projekt brez skupine in brez lastnik_id
-            $sql = "INSERT INTO projekti (naslov, skupina_id) VALUES ('$ime_projekta_esc', NULL)";
-            if (mysqli_query($conn, $sql)) {
-                $obvestilo = "Projekt '$ime_projekta' je bil uspešno ustvarjen.";
+            if ($stmt) {
+                mysqli_stmt_bind_param($stmt, "ssi", $ime_projekta, $datum_konca, $uporabnik_id);
+
+                if (mysqli_stmt_execute($stmt)) {
+                    $obvestilo = "Projekt '$ime_projekta' je bil uspešno ustvarjen.";
+                } else {
+                    $obvestilo = "Napaka pri izvajanju stavka: " . mysqli_stmt_error($stmt);
+                }
+
+                mysqli_stmt_close($stmt);
             } else {
-                $obvestilo = "Napaka pri ustvarjanju projekta: " . mysqli_error($conn);
+                $obvestilo = "Napaka pri pripravi SQL stavka: " . mysqli_error($conn);
             }
+        } else {
+            $obvestilo = "Prosim, izpolnite ime projekta in datum konca.";
         }
     }
 } else {
@@ -57,7 +66,7 @@ if (isset($_SESSION['idu'])) {
                 </div>
             </div>
         </td>
-        <td><?=htmlspecialchars($uporabnik) ?></td>
+        <td><?= htmlspecialchars($uporabnik) ?></td>
     </tr>
 </table>
 
@@ -67,7 +76,11 @@ if (isset($_SESSION['idu'])) {
         <td style="all: unset;">
             <?php if (!empty($obvestilo)) echo '<p style="color:white; font-weight:bold;">' . htmlspecialchars($obvestilo) . '</p>'; ?>
             <form method="post">
-                <input type="text" name="ime_projekta" class="polja" placeholder="Ime projekta">
+                <label for="ime_projekta">Ime projekta:</label><br>
+                <input type="text" name="ime_projekta" class="polja" placeholder="Ime projekta" required><br><br>
+                <label for="datum_konca">Datum konca:</label><br>
+                <input type="date" name="datum_konca" class="polja" required><br><br>
+
                 <input type="submit" name="dodaj_projekt" value="Ustvari" class="button">
             </form>
         </td>
@@ -77,5 +90,5 @@ if (isset($_SESSION['idu'])) {
     </tr>
 </table>
 
-</body>
+</body><?php include "footer.php";?>
 </html>

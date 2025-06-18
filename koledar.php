@@ -106,5 +106,5 @@ $imeMeseca = date('F', $prviDanMeseca);
     }
     ?>
 </table>
-</body>
+</body><?php include "footer.php";?>
 </html>

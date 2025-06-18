@@ -124,4 +124,5 @@ if (isset($_SESSION['idu'])) {
 	</tr>
 </table>
 </body>
+<?php include "footer.php";?>
 </html>
