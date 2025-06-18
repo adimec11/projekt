@@ -13,11 +13,11 @@ $skupina_id = null;
 $obvestilo = '';
 $naslov_taska = '';
 $projekt_id = null;
-$ime_skupine = trim($_GET['ime_skupine']);
-// Pridobi ime skupine iz GET (da vemo, v kateri skupini delamo)
 if (!isset($_GET['ime_skupine']) || empty(trim($_GET['ime_skupine']))) {
     die("Ime skupine ni določeno.");
 }
+
+$ime_skupine = trim($_GET['ime_skupine']);
 
 
 // Pridobi ID skupine
@@ -82,7 +82,7 @@ if (isset($_POST['dodaj_task'])) {
                         <?php if (!isset($_SESSION['idu'])) echo '<a href="index.php">Login</a>'; ?>
                         <a href="main.php">Domov</a>
                         <a href="skupine.php">Skupine</a>
-                        <a href="taski.php">Taski</a>
+                        <a href="taski.php">Moji Projekti</a>
                         <a href="logout.php">Odjava</a>
                     </div>
                 </div>
@@ -115,6 +115,7 @@ if (isset($_POST['dodaj_task'])) {
             </td>
         </tr>
         <tr>
-            <td style="all:unset;"><a href="skupina_pod.php" class="button" style="width: 200px; height:25px;">Nazaj na skupino</a></td>
+            <td style="all:unset;"><a href="skupina_pod.php?ime_skupine=<?= urlencode($ime_skupine) ?>" class="button" style="width: 200px; height:25px;">Nazaj na skupino</a>
+            </td>
         </tr>
 
