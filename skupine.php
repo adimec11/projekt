@@ -27,12 +27,12 @@ if (isset($_SESSION['idu'])) {
 
         $dodaj_skupine .= "<td style='height:150px;width:250px;'>"
             // Link za ogled skupine (GET)
-            . "<a href='skupina_pod.php?ime_skupine=" . urlencode($row['ime_skupine']) . "'>"
+            . "<a href='skupina_pod.php?ime_skupine=" . urlencode($row['ime_skupine']) . "'style='text-decoration:none;color:black;'>"
             . htmlspecialchars($row['ime_skupine'])
             . "</a>"
 
             // Link za zapustitev skupine (GET s parametrom zapusti)
-            . "<a href='izpis_skupine.php?ime_skupine=" . urlencode($row['ime_skupine']) . "&zapusti=1' "
+            . "<br><br><a href='izpis_skupine.php?ime_skupine=" . urlencode($row['ime_skupine']) . "&zapusti=1' "
             . "style='float:right; color:red; font-size:16px; text-decoration:none;'>ZAPUSTI</a>"
 
             . "</td>";

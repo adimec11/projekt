@@ -2,11 +2,11 @@
 require_once "baza.php";
 session_start();
 
-if (!isset($_GET['skupina_ime'])) {
+if (!isset($_GET['ime_skupine'])) {
     die("Napaka: manjkajoči podatki o skupini.");
 }
 
-$ime_skupine = $_GET['skupina_ime'];
+$ime_skupine = $_GET['ime_skupine'];
 $idu = $_SESSION['idu'];
 
 // 1. Pridobi ID skupine po imenu
