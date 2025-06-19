@@ -14,7 +14,6 @@ if (isset($_SESSION['idu'])) {
         $ime_skupine = isset($_POST['ime_skupine']) ? trim($_POST['ime_skupine']) : '';
 
         if (!empty($ime_skupine)) {
-            // Preveri, če skupina s tem imenom že obstaja
             $sql = "SELECT id FROM skupine WHERE ime = ?";
             $stmt = mysqli_prepare($conn, $sql);
             mysqli_stmt_bind_param($stmt, "s", $ime_skupine);
@@ -24,7 +23,6 @@ if (isset($_SESSION['idu'])) {
             if (mysqli_num_rows($rezultat) > 0) {
                 $obvestilo = "Skupina s tem imenom že obstaja. Izberite drugo ime.";
             } else {
-                // Preveri, če uporabnik že obstaja v vodje_skupine
                 $sql = "SELECT id FROM vodje_skupine WHERE uporabnik_id = ?";
                 $stmt = mysqli_prepare($conn, $sql);
                 mysqli_stmt_bind_param($stmt, "i", $uporabnik_id);
@@ -42,7 +40,6 @@ if (isset($_SESSION['idu'])) {
                     $vodja_id = $vrstica['id'];
                 }
 
-                // Vstavi novo skupino
                 $sql = "INSERT INTO skupine (ime, vodja_id) VALUES (?, ?)";
                 $stmt = mysqli_prepare($conn, $sql);
                 mysqli_stmt_bind_param($stmt, "si", $ime_skupine, $vodja_id);
