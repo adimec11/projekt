@@ -228,3 +228,9 @@ table{
 .sidebar:hover .sidebar-vsebina {
     display: block;
 }
+
+.izbira{
+    width:200px;
+    height:30px;
+    border-radius:10px;
+}
