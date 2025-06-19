@@ -1,30 +1,25 @@
 <?php
 require_once 'baza.php';
 
-// --- Brisanje skupine ---
 if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['brisanje_id'])) {
     $brisanje_id = intval($_POST['brisanje_id']);
 
-    // Najprej brišemo morebitne povezane podatke (npr. člane skupine)
     $sql_delete_clani = "DELETE FROM uporabniki_skupine WHERE skupina_id = ?";
     $stmt_clani = mysqli_prepare($conn, $sql_delete_clani);
     mysqli_stmt_bind_param($stmt_clani, "i", $brisanje_id);
     mysqli_stmt_execute($stmt_clani);
     mysqli_stmt_close($stmt_clani);
 
-    // Nato brišemo samo skupino
     $sql_delete = "DELETE FROM skupine WHERE id = ?";
     $stmt_delete = mysqli_prepare($conn, $sql_delete);
     mysqli_stmt_bind_param($stmt_delete, "i", $brisanje_id);
     mysqli_stmt_execute($stmt_delete);
     mysqli_stmt_close($stmt_delete);
 
-    // Refresh strani
     header("Location: ".$_SERVER['PHP_SELF']);
     exit();
 }
 
-// --- Pridobimo vse skupine ---
 $sql_skupine = "SELECT id, ime FROM skupine ORDER BY ime ASC";
 $result_skupine = mysqli_query($conn, $sql_skupine);
 ?>
