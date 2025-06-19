@@ -34,6 +34,7 @@ if ($projekt = mysqli_fetch_assoc($result_preveri)) {
     die("Projekt ne obstaja ali nimate dovoljenja.");
 }
 
+
 if (isset($_POST['dodaj_task'])) {
     $naslov_taska = trim($_POST['naslov_taska']);
     $datum_konca = trim($_POST['datum_konca']);
@@ -73,6 +74,7 @@ if (isset($_POST['dodaj_task'])) {
 <body>
 <img src="img/logo.jpg" class="logo">
 
+<!-- Sidebar -->
 <table border="0">
     <tr>
         <td>
@@ -89,7 +91,8 @@ if (isset($_POST['dodaj_task'])) {
         <td><?= htmlspecialchars($uporabnik) ?></td>
     </tr>
 </table>
-    
+
+<!-- Dodaj Task -->
 <table class="tabela">
     <tr>
         <td class="button"><h2>Dodajanje taska v projekt: <?= htmlspecialchars($naslov_projekta) ?></h2></td>
@@ -100,10 +103,10 @@ if (isset($_POST['dodaj_task'])) {
             <form method="post">
                 <input type="hidden" name="projekt_id" value="<?= $projekt_id ?>">
 
-                <label for="naslov_taska">Naslov taska:</label><br>
+                <label for="naslov_taska" style="font-size: 30px;">Naslov taska:</label><br>
                 <input type="text" id="naslov_taska" name="naslov_taska" class="polja" value="<?= htmlspecialchars($naslov_taska) ?>" required><br><br>
 
-                <label for="datum_konca">Datum konca:</label><br>
+                <label for="datum_konca" style="font-size: 30px;">Datum konca:</label><br>
                 <input type="date" id="datum_konca" name="datum_konca" class="polja" value="<?= htmlspecialchars($datum_konca) ?>" required><br><br>
 
                 <input type="submit" name="dodaj_task" value="Dodaj task" class="button">
