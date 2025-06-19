@@ -9,7 +9,6 @@ if (!isset($_POST['ime_skupine'])) {
 $ime_skupine = $_POST['ime_skupine'];
 $idu = $_SESSION['idu'];
 
-// 1. Pridobi ID skupine po imenu
 $sql = "SELECT id FROM skupine WHERE ime = ?";
 $stmt = mysqli_prepare($conn, $sql);
 if (!$stmt) {
@@ -27,7 +26,6 @@ if (!$row) {
 
 $skupina_id = $row['id'];
 
-// 2. Preveri, če je uporabnik vodja skupine
 $sql = "SELECT s.id 
         FROM skupine s 
         JOIN vodje_skupine vs ON s.vodja_id = vs.id 
@@ -42,7 +40,6 @@ $rezultat = mysqli_stmt_get_result($stmt);
 $is_vodja = mysqli_num_rows($rezultat) > 0;
 mysqli_stmt_close($stmt);
 
-// 3. Odstrani uporabnika iz uporabniki_skupine
 $sql = "DELETE FROM uporabniki_skupine WHERE uporabnik_id = ? AND skupina_id = ?";
 $stmt = mysqli_prepare($conn, $sql);
 if (!$stmt) {
@@ -52,7 +49,6 @@ mysqli_stmt_bind_param($stmt, "ii", $idu, $skupina_id);
 mysqli_stmt_execute($stmt);
 mysqli_stmt_close($stmt);
 
-// 4. Če je bil vodja, poišči novega vodjo
 if ($is_vodja) {
     $sql = "SELECT uporabnik_id FROM uporabniki_skupine WHERE skupina_id = ? ORDER BY RAND() LIMIT 1";
     $stmt = mysqli_prepare($conn, $sql);
@@ -66,7 +62,6 @@ if ($is_vodja) {
     if ($row = mysqli_fetch_assoc($result)) {
         $novi_vodja_uporabnik_id = $row['uporabnik_id'];
 
-        // Ustvari nov zapis v vodje_skupine
         $sql = "INSERT INTO vodje_skupine (uporabnik_id) VALUES (?)";
         $stmt = mysqli_prepare($conn, $sql);
         if (!$stmt) {
@@ -77,7 +72,6 @@ if ($is_vodja) {
         $nova_vodja_id = mysqli_insert_id($conn);
         mysqli_stmt_close($stmt);
 
-        // Posodobi skupino z novim vodjo
         $sql = "UPDATE skupine SET vodja_id = ? WHERE id = ?";
         $stmt = mysqli_prepare($conn, $sql);
         if (!$stmt) {
@@ -87,7 +81,6 @@ if ($is_vodja) {
         mysqli_stmt_execute($stmt);
         mysqli_stmt_close($stmt);
     } else {
-        // Skupina je prazna -> najprej izbriši skupino
         $sql = "DELETE FROM skupine WHERE id = ?";
         $stmt = mysqli_prepare($conn, $sql);
         if (!$stmt) {
@@ -97,12 +90,9 @@ if ($is_vodja) {
         mysqli_stmt_execute($stmt);
         mysqli_stmt_close($stmt);
 
-        // Po želji še počisti vodjo (če želiš imeti bazo "čisto")
-        // (vendar to ni nujno, saj je FK ON DELETE SET NULL)
     }
 }
 
-// Preusmeri nazaj na skupine.php
 header("Location: skupine.php");
 exit;
 ?>
