@@ -104,15 +104,15 @@ if (isset($_POST['dodaj_task'])) {
         <td style="all: unset;">
             <?php if (!empty($obvestilo)) echo '<p style="color:white; font-weight:bold;">' . htmlspecialchars($obvestilo) . '</p>'; ?>
             <form method="post">
-                <label for="naslov_taska">Naslov taska:</label><br>
+                <label for="naslov_taska" style="font-size: 30px;">Naslov taska:</label><br>
                 <input type="text" id="naslov_taska" name="naslov_taska" class="polja" value="<?= htmlspecialchars($naslov_taska) ?>" required><br><br>
 
-                <label for="datum_konca">Datum konca:</label><br>
+                <label for="datum_konca" style="font-size: 30px;">Datum konca:</label><br>
                 <input type="date" id="datum_konca" name="datum_konca" class="polja" value="<?= htmlspecialchars($datum_konca) ?>" required><br><br>
 
-                <label for="projekt_id">Izberi projekt:</label><br>
-                <select id="projekt_id" name="projekt_id" required>
-                    <option value="">-- Izberi projekt --</option>
+                <label for="projekt_id" style="font-size: 30px;">Izberi projekt:</label><br>
+                <select id="projekt_id" name="projekt_id" required style="width:200px; height:30px; border-radius:10px;">
+                    <option value="">Izberi projekt</option>
                     <?php while ($p = mysqli_fetch_assoc($projekti)): ?>
                         <option value="<?= $p['id'] ?>" <?= ($projekt_id == $p['id']) ? 'selected' : '' ?>>
                             <?= htmlspecialchars($p['naslov']) ?>
