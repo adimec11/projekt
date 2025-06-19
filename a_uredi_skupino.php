@@ -17,7 +17,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['ime'])) {
         mysqli_stmt_execute($stmt_update);
         mysqli_stmt_close($stmt_update);
 
-        header("Location: skupine.php");
+        header("Location: " . $_SERVER['PHP_SELF']);
         exit();
     } else {
         $napaka = "Ime skupine ne sme biti prazno.";
