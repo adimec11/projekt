@@ -91,10 +91,10 @@ if (isset($_POST['dodaj_projekt'])) {
         <td style="all: unset;">
             <?php if (!empty($obvestilo)) echo '<p style="color:white; font-weight:bold;">' . htmlspecialchars($obvestilo) . '</p>'; ?>
             <form method="post">
-                <label for="naslov_projekta">Naslov projekta:</label><br>
+                <label for="naslov_projekta" style="font-size: 30px;">Naslov projekta:</label><br>
                 <input type="text" id="naslov_projekta" name="naslov_projekta" class="polja" value="<?= htmlspecialchars($naslov_projekta) ?>" required><br><br>
 
-                <label for="datum_konca">Datum konca:</label><br>
+                <label for="datum_konca" style="font-size: 30px;">Datum konca:</label><br>
                 <input type="date" id="datum_konca" name="datum_konca" class="polja" value="<?= htmlspecialchars($datum_konca) ?>" required><br><br>
 
                 <input type="submit" name="dodaj_projekt" value="Dodaj projekt" class="button">
