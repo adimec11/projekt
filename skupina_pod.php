@@ -230,7 +230,14 @@ $taski = mysqli_stmt_get_result($stmt);
         <td>
             <a href="skupine.php" style="text-decoration: none;color:black;">Nazaj na seznam skupin</a>
         </td>
+        <td style="all:unset; float:left;">
+            <form method="post" action="izpis_skupine.php">
+                <input type="hidden" name="ime_skupine" value="<?= htmlspecialchars($ime_skupine) ?>">
+                <input type="submit" name="zapusti_skupino" value="Zapusti skupino" class="button" style="border-color:red; color:red;">
+            </form>
+        </td>
     </tr>
+
 </table>
 
 </body><?php include "footer.php";?>

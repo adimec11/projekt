@@ -24,17 +24,10 @@ if (isset($_SESSION['idu'])) {
         if ($stevec % 4 == 0) {
             $dodaj_skupine .= "<tr>";
         }
-
-        $dodaj_skupine .= "<td style='height:150px;width:250px;'>"
-            // Link za ogled skupine (GET)
+        $dodaj_skupine .= "<td>"
             . "<a href='skupina_pod.php?ime_skupine=" . urlencode($row['ime_skupine']) . "'style='text-decoration:none;color:black;'>"
             . htmlspecialchars($row['ime_skupine'])
             . "</a>"
-
-            // Link za zapustitev skupine (GET s parametrom zapusti)
-            . "<br><br><a href='izpis_skupine.php?ime_skupine=" . urlencode($row['ime_skupine']) . "&zapusti=1' "
-            . "style='float:right; color:red; font-size:16px; text-decoration:none;'>ZAPUSTI</a>"
-
             . "</td>";
 
         $stevec++;

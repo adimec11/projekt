@@ -13,42 +13,39 @@ if (isset($_GET['mesec'])) {
     $mesec = date('n');
 }
 
+$leto = date('Y');
 
-
-
-$uporabnik =  '';
+$uporabnik = '';
 if (isset($_SESSION['idu'])) {
-	$uporabnik = $_SESSION['polno_ime'];
-}
-	
-$tasks_po_dnevih = [];
-
-$sql = "SELECT naslov, datum_začetka FROM taski WHERE uporabnik_id = ? AND MONTH(datum_začetka) = ? AND YEAR(datum_začetka) = ?";
-$stmt = mysqli_prepare($conn, $sql);
-
-mysqli_stmt_bind_param($stmt, "iii", $_SESSION['idu'], $mesec, $leto);
-mysqli_stmt_execute($stmt);
-
-$rezultat = mysqli_stmt_get_result($stmt);
-
-
-while ($row = mysqli_fetch_assoc($rezultat)) {
-    $dan = (int)date('j', strtotime($row['datum_začetka']));
-    $tasks_po_dnevih[$dan][] = $row['naslov'];
+    $uporabnik = $_SESSION['polno_ime'];
 }
 
-mysqli_stmt_close($stmt);
-//stackoverflow meseci
+$tasks_po_dnevih_konec = [];
+
+// TASKI - konec
+$sql_konec = "SELECT naslov, datum_konca FROM taski WHERE uporabnik_id = ? AND MONTH(datum_konca) = ? AND YEAR(datum_konca) = ?";
+$stmt_konec = mysqli_prepare($conn, $sql_konec);
+mysqli_stmt_bind_param($stmt_konec, "iii", $_SESSION['idu'], $mesec, $leto);
+mysqli_stmt_execute($stmt_konec);
+$rezultat_konec = mysqli_stmt_get_result($stmt_konec);
+
+while ($row = mysqli_fetch_assoc($rezultat_konec)) {
+    $dan = (int)date('j', strtotime($row['datum_konca']));
+    $tasks_po_dnevih_konec[$dan][] = $row['naslov'];
+}
+mysqli_stmt_close($stmt_konec);
+
+// Mesec
 $prviDanMeseca = mktime(0, 0, 0, $mesec, 1, $leto);
-$zacetniOffset = date('N', $prviDanMeseca); // 1 = pon, 7 = ned
+$zacetniOffset = date('N', $prviDanMeseca);
 $stDniVMesecu = date('t', $prviDanMeseca);
-$imeMeseca = date('F', $prviDanMeseca); 
+$imeMeseca = date('F', $prviDanMeseca);
 ?>
 <!DOCTYPE html>
 <html lang="sl">
 <head>
     <meta charset="UTF-8">
-    <title>Koledar – <?= htmlspecialchars($imeMeseca) ?> 2025</title>
+    <title>Koledar – <?= htmlspecialchars($imeMeseca) ?> <?= $leto ?></title>
     <link rel="stylesheet" href="css/stil.css">
     <link rel="icon" href="img/logo.ico">
 </head>
@@ -70,10 +67,11 @@ $imeMeseca = date('F', $prviDanMeseca);
                 </div>
             </div>
         </td>
-        <td><?=htmlspecialchars($uporabnik) ?></td></tr>
+        <td><?= htmlspecialchars($uporabnik) ?></td>
+    </tr>
 </table>
 
-<h2 style="text-align: center;"><?= htmlspecialchars($imeMeseca) ?> </h2>
+<h2 style="text-align: center;"><?= htmlspecialchars($imeMeseca) ?></h2>
 
 <table class="tabela">
     <tr id="dnevi_v_ted">
@@ -89,12 +87,15 @@ $imeMeseca = date('F', $prviDanMeseca);
             if ($zacetek && $i < $zacetniOffset) {
                 echo "<td></td>";
             } elseif ($dan <= $stDniVMesecu) {
-                echo "<td><strong>$dan</strong>";
-                if (isset($tasks_po_dnevih[$dan])) {
-                    foreach ($tasks_po_dnevih[$dan] as $task) {
-                        echo "<span class='task'>" . htmlspecialchars($task) . "</span>";
+                echo "<td style='width:100px;'><strong>$dan</strong>";
+
+                // Taski konec
+                if (isset($tasks_po_dnevih_konec[$dan])) {
+                    foreach ($tasks_po_dnevih_konec[$dan] as $task) {
+                        echo "<div class='task'>" . htmlspecialchars($task) . "</div>";
                     }
                 }
+
                 echo "</td>";
                 $dan++;
                 $zacetek = false;
@@ -106,5 +107,7 @@ $imeMeseca = date('F', $prviDanMeseca);
     }
     ?>
 </table>
-</body><?php include "footer.php";?>
+
+</body>
+<?php include "footer.php"; ?>
 </html>

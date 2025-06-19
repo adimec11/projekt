@@ -78,8 +78,9 @@ if (isset($_SESSION['idu'])) {
             <form method="post">
                 <label for="ime_projekta">Ime projekta:</label><br>
                 <input type="text" name="ime_projekta" class="polja" placeholder="Ime projekta" required><br><br>
-                <label for="datum_konca">Datum konca:</label><br>
-                <input type="date" name="datum_konca" class="polja" required><br><br>
+
+                <label for="datum_konca">Datum konca <span style="color:red;">*</span> (obvezno):</label><br>
+                <input type="date" name="datum_konca" class="polja" min="<?= date('Y-m-d') ?>" required><br><br>
 
                 <input type="submit" name="dodaj_projekt" value="Ustvari" class="button">
             </form>

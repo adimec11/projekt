@@ -15,12 +15,12 @@ if (isset($_SESSION['idu'])) {
     exit;
 }
 
-// Pridobi projekte brez skupine, kjer ima uporabnik svoje naloge
+// Pridobi VSE osebne projekte (brez skupine), ki jih je ustvaril uporabnik
 $sql = "
-    SELECT DISTINCT p.id, p.naslov 
-    FROM projekti p
-    INNER JOIN taski t ON p.id = t.projekt_id
-    WHERE p.skupina_id IS NULL AND t.uporabnik_id = ?
+    SELECT id, naslov 
+    FROM projekti
+    WHERE skupina_id IS NULL 
+    AND lastnik_id = ?
 ";
 
 $stmt = mysqli_prepare($conn, $sql);
@@ -47,8 +47,6 @@ while (($row = mysqli_fetch_assoc($result)) && $stevec < 12) {
         . htmlspecialchars($row['naslov'])
         . "</a>"
 
-        . "<br><br><a href='izbris_projekta.php?projekt_id=" . urlencode($row['id']) . "' "
-        . "style='float:right; color:red; font-size:16px; text-decoration:none;'>IZBRIŠI</a>"
 
         . "</td>";
 
@@ -102,7 +100,7 @@ if ($stevec == 0) {
     <?= $dodaj_projekti ?>
     <td style="all:unset;">
         <form method="post" action="dodajanje_o_projektov.php">
-            <input type="submit" name="dodaj_projekt" value="+" class="button" style="height:150px; width: 250px;">
+            <input type="submit" name="dodaj_projekt" value="+" class="button" style="height:150px; width:200px;">
         </form>
     </td>
     </tr>
