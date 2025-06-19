@@ -1,6 +1,13 @@
 <?php
 require_once 'baza.php';
 
+session_start();
+
+if (!isset($_SESSION['idu']) || !isset($_SESSION['pravica_id']) || $_SESSION['pravica_id'] != 3) {
+    header("Location: main.php"); // ali druga stran za nepooblaščen dostop
+    exit();
+}
+
 if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['brisanje_id'])) {
     $brisanje_id = intval($_POST['brisanje_id']);
 
@@ -16,7 +23,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['brisanje_id'])) {
     mysqli_stmt_execute($stmt_delete);
     mysqli_stmt_close($stmt_delete);
 
-    header("Location: admin.php";
+    header("Location: admin.php");
     exit();
 }
 
