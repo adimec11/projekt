@@ -16,7 +16,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['brisanje_id'])) {
     mysqli_stmt_execute($stmt_delete);
     mysqli_stmt_close($stmt_delete);
 
-    header("Location: ".$_SERVER['PHP_SELF']);
+    header("Location: admin.php";
     exit();
 }
 
