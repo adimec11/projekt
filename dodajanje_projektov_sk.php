@@ -20,7 +20,6 @@ if (!isset($_GET['ime_skupine']) || empty(trim($_GET['ime_skupine']))) {
 
 $ime_skupine = trim($_GET['ime_skupine']);
 
-// Pridobi ID skupine iz baze
 $sql = "SELECT id FROM skupine WHERE ime = ?";
 $stmt = mysqli_prepare($conn, $sql);
 mysqli_stmt_bind_param($stmt, "s", $ime_skupine);
@@ -32,7 +31,6 @@ if ($row = mysqli_fetch_assoc($rezultat)) {
     die("Skupina ne obstaja.");
 }
 
-// Obdelava obrazca
 if (isset($_POST['dodaj_projekt'])) {
     $naslov_projekta = trim($_POST['naslov_projekta']);
     $datum_konca = trim($_POST['datum_konca']);
