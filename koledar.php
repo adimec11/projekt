@@ -34,6 +34,7 @@ while ($row = mysqli_fetch_assoc($rezultat_konec)) {
 }
 mysqli_stmt_close($stmt_konec);
 
+
 $prviDanMeseca = mktime(0, 0, 0, $mesec, 1, $leto);
 $zacetniOffset = date('N', $prviDanMeseca);
 $stDniVMesecu = date('t', $prviDanMeseca);
