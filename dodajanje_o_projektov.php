@@ -15,7 +15,6 @@ if (isset($_SESSION['idu'])) {
         $datum_konca = isset($_POST['datum_konca']) ? trim($_POST['datum_konca']) : '';
 
         if (!empty($ime_projekta) && !empty($datum_konca)) {
-            
             $stmt = mysqli_prepare($conn, "INSERT INTO projekti (naslov, datum_konca, lastnik_id, skupina_id) VALUES (?, ?, ?,NULL)");
 
             if ($stmt) {
@@ -76,10 +75,10 @@ if (isset($_SESSION['idu'])) {
         <td style="all: unset;">
             <?php if (!empty($obvestilo)) echo '<p style="color:white; font-weight:bold;">' . htmlspecialchars($obvestilo) . '</p>'; ?>
             <form method="post">
-                <label for="ime_projekta">Ime projekta:</label><br>
+                <label for="ime_projekta" style="font-size: 30px;">Ime projekta:</label><br>
                 <input type="text" name="ime_projekta" class="polja" placeholder="Ime projekta" required><br><br>
 
-                <label for="datum_konca">Datum konca <span style="color:red;">*</span> (obvezno):</label><br>
+                <label for="datum_konca" style="font-size: 30px;">Datum konca:</label><br>
                 <input type="date" name="datum_konca" class="polja" min="<?= date('Y-m-d') ?>" required><br><br>
 
                 <input type="submit" name="dodaj_projekt" value="Ustvari" class="button">
