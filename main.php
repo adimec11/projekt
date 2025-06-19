@@ -7,7 +7,6 @@ $taski_po_mesecih = array_fill(1, 12, []);
 $uporabnik = '';
 if (isset($_SESSION['idu'])) {
 
-    // --- Osveži pravica_id ---
     $sql_pravica = "SELECT pravica_id FROM uporabniki WHERE id = ?";
     $stmt_pravica = mysqli_prepare($conn, $sql_pravica);
     mysqli_stmt_bind_param($stmt_pravica, "i", $_SESSION['idu']);
@@ -18,7 +17,6 @@ if (isset($_SESSION['idu'])) {
     }
     mysqli_stmt_close($stmt_pravica);
 
-    // --- Naloži taske po mesecih, z leve join da deluje tudi če ni skupine ---
     $sql = "
         SELECT p.id AS projekt_id, p.naslov AS projekt_naslov, 
                t.naslov AS task_naslov, t.datum_začetka
@@ -40,7 +38,6 @@ if (isset($_SESSION['idu'])) {
         $projekt_naslov = $row['projekt_naslov'];
         $task_naslov = $row['task_naslov'];
 
-        // Inicializiraj projekt v mesecu
         if (!isset($taski_po_mesecih[$mesec][$projekt_id])) {
             $taski_po_mesecih[$mesec][$projekt_id] = [
                 'naslov' => $projekt_naslov,
@@ -48,7 +45,6 @@ if (isset($_SESSION['idu'])) {
             ];
         }
 
-        // Dodaj task pod projekt
         $taski_po_mesecih[$mesec][$projekt_id]['taski'][] = $task_naslov;
     }
 
