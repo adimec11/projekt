@@ -21,7 +21,6 @@ if (!isset($_GET['ime_skupine']) || empty(trim($_GET['ime_skupine']))) {
 
 $ime_skupine = trim($_GET['ime_skupine']);
 
-// Pridobi ID skupine
 $sql = "SELECT id FROM skupine WHERE ime = ?";
 $stmt = mysqli_prepare($conn, $sql);
 mysqli_stmt_bind_param($stmt, "s", $ime_skupine);
@@ -33,14 +32,12 @@ if ($row = mysqli_fetch_assoc($rezultat)) {
     die("Skupina ne obstaja.");
 }
 
-// Pridobi vse projekte v tej skupini
 $sql = "SELECT id, naslov FROM projekti WHERE skupina_id = ?";
 $stmt = mysqli_prepare($conn, $sql);
 mysqli_stmt_bind_param($stmt, "i", $skupina_id);
 mysqli_stmt_execute($stmt);
 $projekti = mysqli_stmt_get_result($stmt);
 
-// Obdelava obrazca
 if (isset($_POST['dodaj_task'])) {
     $naslov_taska = trim($_POST['naslov_taska']);
     $datum_konca = trim($_POST['datum_konca']);
