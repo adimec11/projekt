@@ -15,7 +15,7 @@ if (isset($_SESSION['idu'])) {
         $datum_konca = isset($_POST['datum_konca']) ? trim($_POST['datum_konca']) : '';
 
         if (!empty($ime_projekta) && !empty($datum_konca)) {
-            // Pripravljen stavek (proceduralno)
+            
             $stmt = mysqli_prepare($conn, "INSERT INTO projekti (naslov, datum_konca, lastnik_id, skupina_id) VALUES (?, ?, ?,NULL)");
 
             if ($stmt) {
