@@ -14,7 +14,6 @@ $naslov_taska = '';
 $datum_konca = '';
 $obvestilo = '';
 
-// Preveri če je prišel projekt_id iz obrazca (POST)
 if (isset($_POST['projekt_id'])) {
     $projekt_id = intval($_POST['projekt_id']);
 } elseif (isset($_GET['projekt_id'])) {
@@ -23,7 +22,6 @@ if (isset($_POST['projekt_id'])) {
     die("Projekt ni določen.");
 }
 
-// Preveri če projekt pripada uporabniku
 $sql_preveri = "SELECT id, naslov FROM projekti WHERE id = ? AND lastnik_id = ? AND skupina_id IS NULL";
 $stmt_preveri = mysqli_prepare($conn, $sql_preveri);
 mysqli_stmt_bind_param($stmt_preveri, "ii", $projekt_id, $uporabnik_id);
@@ -36,7 +34,6 @@ if ($projekt = mysqli_fetch_assoc($result_preveri)) {
     die("Projekt ne obstaja ali nimate dovoljenja.");
 }
 
-// Obdelava obrazca
 if (isset($_POST['dodaj_task'])) {
     $naslov_taska = trim($_POST['naslov_taska']);
     $datum_konca = trim($_POST['datum_konca']);
@@ -76,7 +73,6 @@ if (isset($_POST['dodaj_task'])) {
 <body>
 <img src="img/logo.jpg" class="logo">
 
-<!-- Sidebar -->
 <table border="0">
     <tr>
         <td>
@@ -93,8 +89,7 @@ if (isset($_POST['dodaj_task'])) {
         <td><?= htmlspecialchars($uporabnik) ?></td>
     </tr>
 </table>
-
-<!-- Dodaj Task -->
+    
 <table class="tabela">
     <tr>
         <td class="button"><h2>Dodajanje taska v projekt: <?= htmlspecialchars($naslov_projekta) ?></h2></td>
