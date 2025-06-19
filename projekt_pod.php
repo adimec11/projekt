@@ -13,7 +13,6 @@ if (isset($_SESSION['idu'])) {
     exit;
 }
 
-// Obdelaj gumb "Opravljeno"
 if (isset($_POST['task_opravljen'])) {
     $task_id = intval($_POST['task_id']);
     $sql_opravljeno = "UPDATE taski SET status = 1 WHERE id = ? LIMIT 1";
@@ -24,16 +23,13 @@ if (isset($_POST['task_opravljen'])) {
     exit;
 }
 
-// Obdelaj gumb "Izbriši projekt"
 if (isset($_POST['izbrisi_projekt'])) {
     $projekt_id = intval($_POST['projekt_id']);
-    // Najprej izbriši taske projekta
     $sql_delete_taski = "DELETE FROM taski WHERE projekt_id = ?";
     $stmt_delete_taski = mysqli_prepare($conn, $sql_delete_taski);
     mysqli_stmt_bind_param($stmt_delete_taski, "i", $projekt_id);
     mysqli_stmt_execute($stmt_delete_taski);
 
-    // Nato izbriši sam projekt
     $sql_delete_projekt = "DELETE FROM projekti WHERE id = ? AND lastnik_id = ?";
     $stmt_delete_projekt = mysqli_prepare($conn, $sql_delete_projekt);
     mysqli_stmt_bind_param($stmt_delete_projekt, "ii", $projekt_id, $uporabnik_id);
@@ -43,10 +39,8 @@ if (isset($_POST['izbrisi_projekt'])) {
     exit;
 }
 
-// Pridobi projekt_id iz GET parametra
 $projekt_id_izbran = isset($_GET['projekt_id']) ? intval($_GET['projekt_id']) : 0;
 
-// Pridobi en projekt (če je podan)
 $sql_projekt = "
     SELECT id, naslov 
     FROM projekti
@@ -96,11 +90,10 @@ $projekt = mysqli_fetch_assoc($result_projekt);
         <?php
         if ($projekt) {
             echo "<tr>";
-            // 1. Stolpec: projekt + taski
+            
             echo "<td>";
             echo "<strong>" . htmlspecialchars($projekt['naslov']) . "</strong><br><br>";
 
-            // Pridobi VSE taske za ta projekt
             $sql_taski = "SELECT id, naslov, status FROM taski WHERE projekt_id = ?";
             $stmt_taski = mysqli_prepare($conn, $sql_taski);
             mysqli_stmt_bind_param($stmt_taski, "i", $projekt['id']);
@@ -113,10 +106,8 @@ $projekt = mysqli_fetch_assoc($result_projekt);
                     echo "<li>";
 
                     if ($task['status'] == 1) {
-                        // Opravljeno (ni gumb)
                         echo htmlspecialchars($task['naslov']) . "✅ ";
                     } else {
-                        // Neopravljeno (gumb z imenom taska)
                         echo "<form method='post' style='display:inline;'>";
                         echo "<input type='hidden' name='task_id' value='" . $task['id'] . "'>";
                         echo "<input type='hidden' name='projekt_id' value='" . $projekt['id'] . "'>";
@@ -133,15 +124,13 @@ $projekt = mysqli_fetch_assoc($result_projekt);
 
             echo "</td>";
 
-            // 2. Stolpec: Dodaj Task + Izbriši Projekt
             echo "<td>";
-            // Dodaj Task
+            
             echo "<form method='post' action='dodajanje_o_taskov.php' style='margin-bottom: 5px;'>";
             echo "<input type='hidden' name='projekt_id' value='" . $projekt['id'] . "'>";
             echo "<input type='submit' value='Dodaj Task' class='button'>";
             echo "</form>";
 
-            // Izbriši Projekt
             echo "<form method='post'>";
             echo "<input type='hidden' name='projekt_id' value='" . $projekt['id'] . "'>";
             echo "<input type='submit' name='izbrisi_projekt' value='Izbriši projekt' class='button' style='border-color:red; color:red;'>";
