@@ -22,7 +22,6 @@ if (isset($_SESSION['idu'])) {
 
 $tasks_po_dnevih_konec = [];
 
-// TASKI - konec
 $sql_konec = "SELECT naslov, datum_konca FROM taski WHERE uporabnik_id = ? AND MONTH(datum_konca) = ? AND YEAR(datum_konca) = ?";
 $stmt_konec = mysqli_prepare($conn, $sql_konec);
 mysqli_stmt_bind_param($stmt_konec, "iii", $_SESSION['idu'], $mesec, $leto);
@@ -35,7 +34,6 @@ while ($row = mysqli_fetch_assoc($rezultat_konec)) {
 }
 mysqli_stmt_close($stmt_konec);
 
-// Mesec
 $prviDanMeseca = mktime(0, 0, 0, $mesec, 1, $leto);
 $zacetniOffset = date('N', $prviDanMeseca);
 $stDniVMesecu = date('t', $prviDanMeseca);
@@ -89,7 +87,6 @@ $imeMeseca = date('F', $prviDanMeseca);
             } elseif ($dan <= $stDniVMesecu) {
                 echo "<td style='width:100px;'><strong>$dan</strong>";
 
-                // Taski konec
                 if (isset($tasks_po_dnevih_konec[$dan])) {
                     foreach ($tasks_po_dnevih_konec[$dan] as $task) {
                         echo "<div class='task'>" . htmlspecialchars($task) . "</div>";
