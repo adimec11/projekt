@@ -7,7 +7,6 @@ if (!isset($_GET['id']) || empty($_GET['id'])) {
 
 $skupina_id = intval($_GET['id']);
 
-// --- Če je POST (posodobitev) ---
 if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['ime'])) {
     $novo_ime = trim($_POST['ime']);
 
@@ -18,7 +17,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['ime'])) {
         mysqli_stmt_execute($stmt_update);
         mysqli_stmt_close($stmt_update);
 
-        // Preusmeri nazaj na seznam skupin
         header("Location: skupine.php");
         exit();
     } else {
@@ -26,7 +24,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['ime'])) {
     }
 }
 
-// --- Pridobimo obstoječe podatke skupine ---
 $sql_skupina = "SELECT ime FROM skupine WHERE id = ?";
 $stmt = mysqli_prepare($conn, $sql_skupina);
 mysqli_stmt_bind_param($stmt, "i", $skupina_id);
