@@ -90,7 +90,6 @@ $projekt = mysqli_fetch_assoc($result_projekt);
         <?php
         if ($projekt) {
             echo "<tr>";
-            
             echo "<td>";
             echo "<strong>" . htmlspecialchars($projekt['naslov']) . "</strong><br><br>";
 
@@ -125,7 +124,7 @@ $projekt = mysqli_fetch_assoc($result_projekt);
             echo "</td>";
 
             echo "<td>";
-            
+
             echo "<form method='post' action='dodajanje_o_taskov.php' style='margin-bottom: 5px;'>";
             echo "<input type='hidden' name='projekt_id' value='" . $projekt['id'] . "'>";
             echo "<input type='submit' value='Dodaj Task' class='button'>";
