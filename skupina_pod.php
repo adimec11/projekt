@@ -15,7 +15,6 @@ if (!isset($_GET['ime_skupine']) || empty(trim($_GET['ime_skupine']))) {
 
 $ime_skupine = trim($_GET['ime_skupine']);
 
-// Pridobi ID skupine in vodjo
 $sql = "SELECT id, vodja_id FROM skupine WHERE ime = ?";
 $stmt = mysqli_prepare($conn, $sql);
 mysqli_stmt_bind_param($stmt, "s", $ime_skupine);
@@ -30,7 +29,6 @@ if (!$skupina) {
 $skupina_id = $skupina['id'];
 $vodja_skupine_id = $skupina['vodja_id'];
 
-// Pridobi podatke o vodji
 $vodja_id = null;
 $vodja_ime = '';
 $vodja_priimek = '';
@@ -53,12 +51,10 @@ if ($vodja_skupine_id) {
 
 $je_vodja = $_SESSION['idu'] == $vodja_id;
 
-// Dodeli task trenutnemu uporabniku
 if (isset($_POST['prevzemi_task']) && !$je_vodja) {
     $task_id = (int)$_POST['prevzemi_task'];
     $uporabnik_id = $_SESSION['idu'];
 
-    // Preveri, ali task še nima uporabnika
     $sql = "SELECT t.id 
             FROM taski t
             JOIN projekti p ON t.projekt_id = p.id
@@ -76,7 +72,6 @@ if (isset($_POST['prevzemi_task']) && !$je_vodja) {
     }
 }
 
-// Dodajanje uporabnika v skupino
 $msg = '';
 if ($je_vodja && isset($_POST['dodaj_uporabnika'])) {
     $username = trim($_POST['username']);
@@ -96,21 +91,18 @@ if ($je_vodja && isset($_POST['dodaj_uporabnika'])) {
     }
 }
 
-// Pridobi vse člane skupine
 $sql = "SELECT u.uporabnisko_ime FROM uporabniki_skupine us JOIN uporabniki u ON us.uporabnik_id = u.id WHERE us.skupina_id = ?";
 $stmt = mysqli_prepare($conn, $sql);
 mysqli_stmt_bind_param($stmt, "i", $skupina_id);
 mysqli_stmt_execute($stmt);
 $uporabniki = mysqli_stmt_get_result($stmt);
 
-// Pridobi projekt skupine
 $sql = "SELECT id, naslov FROM projekti WHERE skupina_id = ?";
 $stmt = mysqli_prepare($conn, $sql);
 mysqli_stmt_bind_param($stmt, "i", $skupina_id);
 mysqli_stmt_execute($stmt);
 $projekti = mysqli_stmt_get_result($stmt);
 
-// Pridobi vse taske skupine z dodeljenimi uporabniki in projekti
 $sql = "SELECT t.id, t.naslov, t.opis, u.uporabnisko_ime, p.naslov AS projekt
         FROM taski t
         JOIN projekti p ON t.projekt_id = p.id
