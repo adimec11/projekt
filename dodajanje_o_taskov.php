@@ -74,7 +74,6 @@ if (isset($_POST['dodaj_task'])) {
 <body>
 <img src="img/logo.jpg" class="logo">
 
-<!-- Sidebar -->
 <table border="0">
     <tr>
         <td>
@@ -92,7 +91,6 @@ if (isset($_POST['dodaj_task'])) {
     </tr>
 </table>
 
-<!-- Dodaj Task -->
 <table class="tabela">
     <tr>
         <td class="button"><h2>Dodajanje taska v projekt: <?= htmlspecialchars($naslov_projekta) ?></h2></td>
