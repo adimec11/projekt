@@ -10,12 +10,10 @@ if (isset($_SESSION['idu'])) {
     $uporabnik = $_SESSION['polno_ime'];
     $uporabnik_id = $_SESSION['idu'];
 } else {
-    // Če uporabnik ni prijavljen, preusmeri na login
     header("Location: index.php");
     exit;
 }
 
-// Pridobi VSE osebne projekte (brez skupine), ki jih je ustvaril uporabnik
 $sql = "
     SELECT id, naslov 
     FROM projekti
@@ -57,7 +55,6 @@ while (($row = mysqli_fetch_assoc($result)) && $stevec < 12) {
     }
 }
 
-// Zapri odprto vrstico, če projektov ni deljivo s 4
 if ($stevec % 4 != 0) {
     $dodaj_projekti .= "</tr>";
 }
